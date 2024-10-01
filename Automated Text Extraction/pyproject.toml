@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "gaia-pdf-uploader"
+version = "0.1.0"
+description = "Script to upload GAIA dataset PDF files to S3"
+authors = ["Saurabh, Shreya"]
+license = "MIT License"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.8"
+boto3 = "^1.35.30"
+datasets = "^3.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

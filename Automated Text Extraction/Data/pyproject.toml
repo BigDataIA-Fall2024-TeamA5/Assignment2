@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "boto3"
+version = "0.1.0"
+description = ""
+authors = ["Aniket <patole.an@northeastern.edu>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+datasets = "^3.0.1"
+boto3 = "^1.35.30"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
