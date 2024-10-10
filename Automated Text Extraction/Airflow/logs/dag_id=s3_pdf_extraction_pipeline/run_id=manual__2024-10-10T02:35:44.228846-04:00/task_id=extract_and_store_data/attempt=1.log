@@ -1,0 +1,20 @@
+[2024-10-10T02:36:57.807-0400] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-10-10T02:36:57.820-0400] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: s3_pdf_extraction_pipeline.extract_and_store_data manual__2024-10-10T02:35:44.228846-04:00 [queued]>
+[2024-10-10T02:36:57.826-0400] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: s3_pdf_extraction_pipeline.extract_and_store_data manual__2024-10-10T02:35:44.228846-04:00 [queued]>
+[2024-10-10T02:36:57.826-0400] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2024-10-10T02:36:57.835-0400] {taskinstance.py:2888} INFO - Executing <Task(PythonOperator): extract_and_store_data> on 2024-10-10 02:35:44.228846-04:00
+[2024-10-10T02:36:57.850-0400] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=77) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-10-10T02:36:57.852-0400] {standard_task_runner.py:72} INFO - Started process 79 to run task
+[2024-10-10T02:36:57.853-0400] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 's3_pdf_extraction_pipeline', 'extract_and_store_data', 'manual__2024-10-10T02:35:44.228846-04:00', '--job-id', '46', '--raw', '--subdir', 'DAGS_FOLDER/Pypdf_Pipeline.py', '--cfg-path', '/tmp/tmpb139k0zx']
+[2024-10-10T02:36:57.865-0400] {standard_task_runner.py:105} INFO - Job 46: Subtask extract_and_store_data
+[2024-10-10T02:36:57.926-0400] {task_command.py:467} INFO - Running <TaskInstance: s3_pdf_extraction_pipeline.extract_and_store_data manual__2024-10-10T02:35:44.228846-04:00 [running]> on host 45d4aecd3dfd
+[2024-10-10T02:36:57.981-0400] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='s3_pdf_extraction_pipeline' AIRFLOW_CTX_TASK_ID='extract_and_store_data' AIRFLOW_CTX_EXECUTION_DATE='2024-10-10T02:35:44.228846-04:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-10-10T02:35:44.228846-04:00'
+[2024-10-10T02:36:57.982-0400] {taskinstance.py:731} INFO - ::endgroup::
+[2024-10-10T02:37:27.592-0400] {python.py:240} INFO - Done. Returned value was: None
+[2024-10-10T02:37:27.611-0400] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2024-10-10T02:37:27.612-0400] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=s3_pdf_extraction_pipeline, task_id=extract_and_store_data, run_id=manual__2024-10-10T02:35:44.228846-04:00, execution_date=20241010T023544, start_date=20241010T023657, end_date=20241010T023727
+[2024-10-10T02:37:27.719-0400] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2024-10-10T02:37:27.762-0400] {taskinstance.py:3900} INFO - 0 downstream tasks scheduled from follow-on schedule check
+[2024-10-10T02:37:27.763-0400] {local_task_job_runner.py:245} INFO - ::endgroup::

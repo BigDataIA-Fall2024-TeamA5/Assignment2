@@ -1,0 +1,234 @@
+[2024-10-10T02:36:05.630-0400] {local_task_job_runner.py:123} INFO - ::group::Pre task execution logs
+[2024-10-10T02:36:05.655-0400] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=non-requeueable deps ti=<TaskInstance: s3_pdf_extraction_pipeline.analyze_pdf_layout manual__2024-10-10T02:35:44.228846-04:00 [queued]>
+[2024-10-10T02:36:05.670-0400] {taskinstance.py:2612} INFO - Dependencies all met for dep_context=requeueable deps ti=<TaskInstance: s3_pdf_extraction_pipeline.analyze_pdf_layout manual__2024-10-10T02:35:44.228846-04:00 [queued]>
+[2024-10-10T02:36:05.671-0400] {taskinstance.py:2865} INFO - Starting attempt 1 of 2
+[2024-10-10T02:36:05.692-0400] {taskinstance.py:2888} INFO - Executing <Task(PythonOperator): analyze_pdf_layout> on 2024-10-10 02:35:44.228846-04:00
+[2024-10-10T02:36:05.710-0400] {warnings.py:112} WARNING - /home/***/.local/lib/python3.12/site-packages/***/task/task_runner/standard_task_runner.py:70: DeprecationWarning: This process (pid=73) is multi-threaded, use of fork() may lead to deadlocks in the child.
+  pid = os.fork()
+
+[2024-10-10T02:36:05.715-0400] {standard_task_runner.py:72} INFO - Started process 75 to run task
+[2024-10-10T02:36:05.713-0400] {standard_task_runner.py:104} INFO - Running: ['***', 'tasks', 'run', 's3_pdf_extraction_pipeline', 'analyze_pdf_layout', 'manual__2024-10-10T02:35:44.228846-04:00', '--job-id', '45', '--raw', '--subdir', 'DAGS_FOLDER/Pypdf_Pipeline.py', '--cfg-path', '/tmp/tmpfftsi4bn']
+[2024-10-10T02:36:05.717-0400] {standard_task_runner.py:105} INFO - Job 45: Subtask analyze_pdf_layout
+[2024-10-10T02:36:05.807-0400] {task_command.py:467} INFO - Running <TaskInstance: s3_pdf_extraction_pipeline.analyze_pdf_layout manual__2024-10-10T02:35:44.228846-04:00 [running]> on host 45d4aecd3dfd
+[2024-10-10T02:36:05.956-0400] {taskinstance.py:3131} INFO - Exporting env vars: AIRFLOW_CTX_DAG_OWNER='***' AIRFLOW_CTX_DAG_ID='s3_pdf_extraction_pipeline' AIRFLOW_CTX_TASK_ID='analyze_pdf_layout' AIRFLOW_CTX_EXECUTION_DATE='2024-10-10T02:35:44.228846-04:00' AIRFLOW_CTX_TRY_NUMBER='1' AIRFLOW_CTX_DAG_RUN_ID='manual__2024-10-10T02:35:44.228846-04:00'
+[2024-10-10T02:36:05.960-0400] {taskinstance.py:731} INFO - ::endgroup::
+[2024-10-10T02:36:06.779-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/021a5339-744f-42b7-bd9b-9368b3efda7a.pdf. Using CSV format.
+[2024-10-10T02:36:07.215-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/021a5339-744f-42b7-bd9b-9368b3efda7a.pdf. Using CSV format.
+[2024-10-10T02:36:07.312-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/021a5339-744f-42b7-bd9b-9368b3efda7a.pdf. Using CSV format.
+[2024-10-10T02:36:09.365-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/32f386b9-73ee-4455-b412-ddad508aa979.pdf. Using CSV format.
+[2024-10-10T02:36:10.195-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/4044eab7-1282-42bd-a559-3bf3a4d5858e.pdf. Using CSV format.
+[2024-10-10T02:36:10.776-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/4044eab7-1282-42bd-a559-3bf3a4d5858e.pdf. Using CSV format.
+[2024-10-10T02:36:10.972-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/4044eab7-1282-42bd-a559-3bf3a4d5858e.pdf. Using CSV format.
+[2024-10-10T02:36:11.972-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/634fca59-03b2-4cdf-9ce4-0205df22f256.pdf. Using JSON format.
+[2024-10-10T02:36:20.803-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/680d7d77-c0c7-49c8-88fd-f8ec623645e9.pdf. Using CSV format.
+[2024-10-10T02:36:20.942-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/680d7d77-c0c7-49c8-88fd-f8ec623645e9.pdf. Using CSV format.
+[2024-10-10T02:36:20.971-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/680d7d77-c0c7-49c8-88fd-f8ec623645e9.pdf. Using CSV format.
+[2024-10-10T02:36:21.259-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/7c215d46-91c7-424e-9f22-37d43ab73ea6.pdf. Using CSV format.
+[2024-10-10T02:36:21.609-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:21.756-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:21.886-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:22.036-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:22.169-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:22.304-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:22.800-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:22.993-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:23.183-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:23.415-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:23.572-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:23.735-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:23.872-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:23.994-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:24.559-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:24.876-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:25.074-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:25.296-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:25.470-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:25.718-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:26.000-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:26.235-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:26.466-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:26.720-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:27.538-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:27.799-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:28.086-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:28.310-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:28.433-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:28.491-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/8f697523-6988-4c4f-8d72-760a45681f68.pdf. Using JSON format.
+[2024-10-10T02:36:28.744-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/b3654e47-4307-442c-a09c-945b33b913c6.pdf. Using CSV format.
+[2024-10-10T02:36:28.897-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/b3654e47-4307-442c-a09c-945b33b913c6.pdf. Using CSV format.
+[2024-10-10T02:36:28.924-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/b3654e47-4307-442c-a09c-945b33b913c6.pdf. Using CSV format.
+[2024-10-10T02:36:30.590-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:30.621-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:30.637-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:30.655-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:30.867-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:30.965-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:31.015-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:31.094-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:31.206-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:31.283-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:31.594-0400] {logging_mixin.py:190} INFO - Defaulting to JSON format for GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf.
+[2024-10-10T02:36:31.737-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:31.749-0400] {logging_mixin.py:190} INFO - Defaulting to JSON format for GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf.
+[2024-10-10T02:36:31.877-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:31.989-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:32.968-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.105-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.182-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.264-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.355-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.477-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.562-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.639-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.710-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.772-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.828-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:33.931-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:34.030-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:34.478-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:34.578-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:34.682-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:34.795-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:34.896-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:34.994-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:35.101-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:35.171-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:35.276-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:35.393-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:35.487-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:35.573-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:35.665-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:35.788-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:35.915-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:36.574-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:36.708-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:36.841-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:36.967-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.075-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.168-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.259-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.307-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.361-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.456-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.518-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.629-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.684-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.744-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.818-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:37.899-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:38.011-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:38.117-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:38.200-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:38.827-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:39.109-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:39.216-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:39.336-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:39.437-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:39.582-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using CSV format.
+[2024-10-10T02:36:39.728-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:39.887-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.019-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.120-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.156-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.202-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.298-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.395-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.420-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.530-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.561-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.652-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.714-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using CSV format.
+[2024-10-10T02:36:40.754-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.863-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:40.946-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:41.048-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:41.154-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:41.295-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:42.102-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:42.212-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:42.320-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:42.404-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:42.503-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:42.642-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:42.746-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:42.954-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:43.269-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:43.340-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:43.415-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:43.507-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:43.635-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:43.712-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:43.812-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:43.821-0400] {logging_mixin.py:190} INFO - Defaulting to JSON format for GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf.
+[2024-10-10T02:36:43.880-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:43.957-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:44.027-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:44.157-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:44.265-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:44.326-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:44.414-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:44.509-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:44.612-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:44.707-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:45.627-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:45.751-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:45.857-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:45.992-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:46.109-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:46.211-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:46.382-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:46.543-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:46.634-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:46.712-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:46.781-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:46.879-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:46.981-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:47.046-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:47.149-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:47.235-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:47.300-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:47.376-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:47.451-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:47.679-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:47.745-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:47.827-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:47.913-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:48.001-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:48.108-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:48.211-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:48.328-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:48.409-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:48.497-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:48.532-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:49.737-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:49.849-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:50.028-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:50.286-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:50.411-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:50.544-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:50.698-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:50.854-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:50.977-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:51.105-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:51.219-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:51.418-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:51.557-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:51.643-0400] {logging_mixin.py:190} INFO - Detected paragraphs in GAIA-Dataset/test/be353748-74eb-4904-8f17-f180ce087f1a.pdf. Using JSON format.
+[2024-10-10T02:36:52.382-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/c4456885-2f03-436f-8fe9-0b4ca6822cdb.pdf. Using CSV format.
+[2024-10-10T02:36:52.508-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/c4456885-2f03-436f-8fe9-0b4ca6822cdb.pdf. Using CSV format.
+[2024-10-10T02:36:52.544-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/c4456885-2f03-436f-8fe9-0b4ca6822cdb.pdf. Using CSV format.
+[2024-10-10T02:36:52.804-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/ca0a4c14-4b97-43e7-8923-539d61050ae3.pdf. Using CSV format.
+[2024-10-10T02:36:52.959-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/ca0a4c14-4b97-43e7-8923-539d61050ae3.pdf. Using CSV format.
+[2024-10-10T02:36:53.011-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/ca0a4c14-4b97-43e7-8923-539d61050ae3.pdf. Using CSV format.
+[2024-10-10T02:36:53.396-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/test/d50b8ecb-a8aa-4696-ad84-403ef15e2c8b.pdf. Using CSV format.
+[2024-10-10T02:36:53.787-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/validation/366e2f2b-8632-4ef2-81eb-bc3877489217.pdf. Using CSV format.
+[2024-10-10T02:36:54.029-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/validation/67e8878b-5cef-4375-804e-e6291fdbe78a.pdf. Using CSV format.
+[2024-10-10T02:36:54.390-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/validation/e9a2c537-8232-4c3f-85b0-b52de6bcba99.pdf. Using CSV format.
+[2024-10-10T02:36:54.690-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/validation/e9a2c537-8232-4c3f-85b0-b52de6bcba99.pdf. Using CSV format.
+[2024-10-10T02:36:54.732-0400] {logging_mixin.py:190} INFO - Detected tables in GAIA-Dataset/validation/e9a2c537-8232-4c3f-85b0-b52de6bcba99.pdf. Using CSV format.
+[2024-10-10T02:36:54.742-0400] {python.py:240} INFO - Done. Returned value was: None
+[2024-10-10T02:36:54.755-0400] {taskinstance.py:340} INFO - ::group::Post task execution logs
+[2024-10-10T02:36:54.755-0400] {taskinstance.py:352} INFO - Marking task as SUCCESS. dag_id=s3_pdf_extraction_pipeline, task_id=analyze_pdf_layout, run_id=manual__2024-10-10T02:35:44.228846-04:00, execution_date=20241010T023544, start_date=20241010T023605, end_date=20241010T023654
+[2024-10-10T02:36:54.856-0400] {local_task_job_runner.py:266} INFO - Task exited with return code 0
+[2024-10-10T02:36:54.936-0400] {taskinstance.py:3900} INFO - 1 downstream tasks scheduled from follow-on schedule check
+[2024-10-10T02:36:54.937-0400] {local_task_job_runner.py:245} INFO - ::endgroup::
