@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "boto3"
+name = "data-extraction-project"
 version = "0.1.0"
 description = ""
 authors = ["Aniket <patole.an@northeastern.edu>"]
@@ -9,6 +9,9 @@ readme = "README.md"
 python = "^3.12"
 datasets = "^3.0.1"
 boto3 = "^1.35.30"
+mlcroissant = "^1.0.9"
+huggingface-hub = "^0.25.1"
+requests = "^2.32.3"
 
 
 [build-system]

@@ -1,0 +1,15 @@
+# Use the official Apache Airflow image as the base image
+FROM apache/airflow:2.10.2
+
+# Install ntp to sync time
+USER root
+RUN apt-get update && apt-get install -y ntpdate && ntpdate pool.ntp.org
+
+# Switch back to airflow user for other installations
+USER airflow
+
+# Install additional dependencies using pip
+RUN pip install --user --no-cache-dir pandas streamlit numpy pypdf2 pdfplumber
+
+# Set the correct environment variables to include the 'user' installed packages
+ENV PATH="/home/airflow/.local/bin:${PATH}"

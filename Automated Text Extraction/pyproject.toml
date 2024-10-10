@@ -7,9 +7,10 @@ license = "MIT License"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.8,<=3.12.6"
 boto3 = "^1.35.30"
 datasets = "^3.0.1"
+docutils = "<0.21"
 
 
 [build-system]
