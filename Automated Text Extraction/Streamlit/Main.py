@@ -1,13 +1,12 @@
-# streamlit_app.py
+# main.py
+
 import streamlit as st
 import requests
 
-# Define FastAPI base URL
-FASTAPI_URL = "http://127.0.0.1:8000/auth"  # Make sure this matches your FastAPI server URL and path
+FASTAPI_URL = "http://localhost:8000"  # Replace with your FastAPI URL
 
-# Function to handle signup
 def signup(username, email, password):
-    response = requests.post(f"{FASTAPI_URL}/register", json={
+    response = requests.post(f"{FASTAPI_URL}/auth/register", json={
         "username": username,
         "email": email,
         "password": password
@@ -17,9 +16,8 @@ def signup(username, email, password):
     else:
         st.error(response.json().get("detail", "An error occurred during signup."))
 
-# Function to handle login
 def login(username, password):
-    response = requests.post(f"{FASTAPI_URL}/login", json={
+    response = requests.post(f"{FASTAPI_URL}/auth/login", json={
         "username": username,
         "password": password
     })
@@ -28,19 +26,21 @@ def login(username, password):
         st.session_state['access_token'] = token_data['access_token']
         st.session_state['logged_in'] = True
         st.success("Logged in successfully!")
+        st.session_state['page'] = 'application'
     else:
         st.error("Invalid username or password. Please try again.")
 
-# Session state to manage login state
+# Check if user is logged in and set page state
 if 'logged_in' not in st.session_state:
     st.session_state['logged_in'] = False
 
 if 'page' not in st.session_state:
     st.session_state['page'] = 'login'
 
-# Render different pages based on login state
+# Main Login/Signup Interface
 if st.session_state['logged_in']:
-    st.write("Welcome to the application!")
+    if st.session_state['page'] == 'application':
+        import application  # Redirect to `application.py`
 else:
     option = st.selectbox("Select Login or Signup", ("Login", "Signup"))
 
@@ -48,7 +48,6 @@ else:
         st.subheader("Login")
         username = st.text_input("Username")
         password = st.text_input("Password", type="password")
-        
         if st.button("Login"):
             login(username, password)
 
@@ -57,6 +56,5 @@ else:
         username = st.text_input("Username")
         email = st.text_input("Email")
         password = st.text_input("Password", type="password")
-        
         if st.button("Signup"):
             signup(username, email, password)
