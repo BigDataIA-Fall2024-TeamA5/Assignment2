@@ -1,0 +1,2 @@
+# Fastapi package initialization
+pass

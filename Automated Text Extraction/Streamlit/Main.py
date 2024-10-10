@@ -1,60 +1,70 @@
-# main.py
+# main.py in FastAPI
 
-import streamlit as st
-import requests
+from fastapi import FastAPI, HTTPException, Depends
+from fastapi.middleware.cors import CORSMiddleware
+from boto3 import client
+from dotenv import load_dotenv
+import os
 
-FASTAPI_URL = "http://localhost:8000"  # Replace with your FastAPI URL
+# JWT Auth Setup
+from Fastapi.jwtauth import router  
+# Assuming this is for JWT-based authentication
 
-def signup(username, email, password):
-    response = requests.post(f"{FASTAPI_URL}/auth/register", json={
-        "username": username,
-        "email": email,
-        "password": password
-    })
-    if response.status_code == 200:
-        st.success("Account created successfully!")
-    else:
-        st.error(response.json().get("detail", "An error occurred during signup."))
+# Load environment variables
+load_dotenv()
 
-def login(username, password):
-    response = requests.post(f"{FASTAPI_URL}/auth/login", json={
-        "username": username,
-        "password": password
-    })
-    if response.status_code == 200:
-        token_data = response.json()
-        st.session_state['access_token'] = token_data['access_token']
-        st.session_state['logged_in'] = True
-        st.success("Logged in successfully!")
-        st.session_state['page'] = 'application'
-    else:
-        st.error("Invalid username or password. Please try again.")
+# Initialize FastAPI application
+app = FastAPI()
 
-# Check if user is logged in and set page state
-if 'logged_in' not in st.session_state:
-    st.session_state['logged_in'] = False
+# Add CORS middleware to allow Streamlit to interact with FastAPI
+origins = [
+    "http://localhost:8501",  # Replace with your Streamlit app URL if needed
+    "http://127.0.0.1:8501"
+]
 
-if 'page' not in st.session_state:
-    st.session_state['page'] = 'login'
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
-# Main Login/Signup Interface
-if st.session_state['logged_in']:
-    if st.session_state['page'] == 'application':
-        import application  # Redirect to `application.py`
-else:
-    option = st.selectbox("Select Login or Signup", ("Login", "Signup"))
+# Include the JWT-based router for authentication
+app.include_router(router, prefix="/auth")
 
-    if option == "Login":
-        st.subheader("Login")
-        username = st.text_input("Username")
-        password = st.text_input("Password", type="password")
-        if st.button("Login"):
-            login(username, password)
+# Fetch S3 configurations from environment variables
+AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+AWS_REGION = os.getenv("AWS_REGION")
+S3_BUCKET_NAME = os.getenv("S3_BUCKET_NAME")
+S3_PREFIX = os.getenv("S3_PREFIX")
 
-    elif option == "Signup":
-        st.subheader("Signup")
-        username = st.text_input("Username")
-        email = st.text_input("Email")
-        password = st.text_input("Password", type="password")
-        if st.button("Signup"):
-            signup(username, email, password)
+# Create a boto3 S3 client
+s3_client = client(
+    "s3",
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY,
+    region_name=AWS_REGION,
+)
+
+# Root endpoint
+@app.get("/")
+def read_root():
+    return {"message": "Welcome to the FastAPI PDF Management Service!"}
+
+# Endpoint to list PDF files in S3
+@app.get("/list-pdfs")
+async def list_pdfs():
+    """Lists PDF files from the specified S3 bucket and folder."""
+    try:
+        # Use the S3 client to list the PDF files
+        response = s3_client.list_objects_v2(Bucket=S3_BUCKET_NAME, Prefix=S3_PREFIX)
+        pdf_files = [
+            content["Key"].split("/")[-1]
+            for content in response.get("Contents", [])
+            if content["Key"].endswith(".pdf")
+        ]
+        return {"pdf_files": pdf_files} if pdf_files else {"message": "No PDF files found in S3 bucket."}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Error: {e}")
