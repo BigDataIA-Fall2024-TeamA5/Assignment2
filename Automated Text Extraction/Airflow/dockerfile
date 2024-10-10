@@ -19,7 +19,7 @@ RUN apt-get update \
     tesseract-ocr \
     libgomp1 \
     && apt-get clean
-
+RUN pip install openai
 # Sync time to prevent AWS S3 time mismatch errors
 RUN ntpdate pool.ntp.org
 

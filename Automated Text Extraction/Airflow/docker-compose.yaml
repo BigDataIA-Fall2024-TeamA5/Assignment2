@@ -51,7 +51,7 @@ x-airflow-common:
   &airflow-common
   image: custom-airflow:latest
   environment:
-    &airflow-common-env
+    _PIP_ADDITIONAL_REQUIREMENTS: "pandas streamlit numpy pypdf2 pdfplumber openai"
     AIRFLOW__CORE__EXECUTOR: CeleryExecutor
     AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
     AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
@@ -61,8 +61,7 @@ x-airflow-common:
     AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
     AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
     TZ: "UTC"  # Set the timezone to UTC
-  env_file:
-    - .env
+  env_file: .env
 
 services:
   postgres:
@@ -73,7 +72,7 @@ services:
       POSTGRES_DB: airflow
       TZ: "UTC"  # Ensure PostgreSQL uses UTC timezone
     volumes:
-      - postgres-db-volume:/var/lib/postgresql/data  # Correct volume reference
+      - postgres-db-volume:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD", "pg_isready", "-U", "airflow"]
       interval: 10s
@@ -100,16 +99,11 @@ services:
     command: webserver
     ports:
       - "8080:8080"
-    env_file:
-      - .env  # Use the .env file for AWS credentials
-    environment:
-      <<: *airflow-common-env
-      TZ: "UTC"  # Set timezone to UTC
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
-      - /etc/localtime:/etc/localtime:ro  # Sync container time with host UTC time
+      - /etc/localtime:/etc/localtime:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -120,16 +114,11 @@ services:
   airflow-scheduler:
     <<: *airflow-common
     command: scheduler
-    env_file:
-      - .env  # Use the .env file for AWS credentials
-    environment:
-      <<: *airflow-common-env
-      TZ: "UTC"  # Set timezone to UTC
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
-      - /etc/localtime:/etc/localtime:ro  # Sync container time with host UTC time
+      - /etc/localtime:/etc/localtime:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -140,16 +129,11 @@ services:
   airflow-worker:
     <<: *airflow-common
     command: celery worker
-    env_file:
-      - .env  # Use the .env file for AWS credentials
-    environment:
-      <<: *airflow-common-env
-      TZ: "UTC"  # Set timezone to UTC
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
-      - /etc/localtime:/etc/localtime:ro  # Sync container time with host UTC time
+      - /etc/localtime:/etc/localtime:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -160,16 +144,11 @@ services:
   airflow-init:
     <<: *airflow-common
     command: bash -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com"
-    env_file:
-      - .env  # Use the .env file for AWS credentials
-    environment:
-      <<: *airflow-common-env
-      TZ: "UTC"  # Set timezone to UTC
     volumes:
       - ./dags:/opt/airflow/dags
       - ./logs:/opt/airflow/logs
       - ./plugins:/opt/airflow/plugins
-      - /etc/localtime:/etc/localtime:ro  # Sync container time with host UTC time
+      - /etc/localtime:/etc/localtime:ro
     depends_on:
       postgres:
         condition: service_healthy
@@ -178,4 +157,4 @@ services:
     restart: "no"
 
 volumes:
-  postgres-db-volume:  # Define the volume to resolve undefined volume error
+  postgres-db-volume:
