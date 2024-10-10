@@ -1,17 +1,15 @@
 [tool.poetry]
-name = "data-extraction-project"
+name = "airflow"
 version = "0.1.0"
 description = ""
 authors = ["Aniket <patole.an@northeastern.edu>"]
+license = "MIT LIcense"
 readme = "README.md"
 
 [tool.poetry.dependencies]
 python = "^3.12"
-datasets = "^3.0.1"
-boto3 = "^1.35.30"
-mlcroissant = "^1.0.9"
-huggingface-hub = "^0.25.1"
-requests = "^2.32.3"
+pdfplumber = "^0.11.4"
+pymupdf = "^1.24.11"
 
 
 [build-system]
