@@ -1,86 +1,97 @@
 import streamlit as st
-
-# Set Streamlit page configuration first
-st.set_page_config(page_title="PDF Text Extraction Application", layout="centered")
-
-# Other imports after setting page config
-import boto3
-import mysql.connector
-import pandas as pd
+import requests
 from dotenv import load_dotenv
 import os
-import sys
-
-st.write("Python Executable Path:", sys.executable)
 
 # Load environment variables from .env file
 load_dotenv()
 
-# Set up Streamlit page configuration and title (set_page_config should not be here)
+# Set up Streamlit page configuration and title
+st.set_page_config(page_title="PDF Text Extraction Application", layout="centered")
 st.title("PDF Text Extraction Application")
 
-# Database Configuration from .env file
-DB_HOST = os.getenv("DB_HOST")
-DB_USER = os.getenv("DB_USER")
-DB_PASSWORD = os.getenv("DB_PASSWORD")
-DB_NAME = os.getenv("DB_NAME")
+# Correct FastAPI URL for the PDF list endpoint
+FASTAPI_URL = os.getenv("FASTAPI_URL", "http://127.0.0.1:8000/files/list-pdfs")
 
-# Function to establish a connection to the database
-def create_connection():
-    """Establish a database connection to the Amazon RDS."""
-    return mysql.connector.connect(
-        host=DB_HOST,
-        user=DB_USER,
-        password=DB_PASSWORD,
-        database=DB_NAME
-    )
-
-# Function to fetch all unique file names from merged_pdf table
-def get_file_names():
-    """Fetch unique file names from the merged_pdf table."""
-    try:
-        conn = create_connection()
-        query = "SELECT DISTINCT file_name FROM merged_pdf"
-        file_names_df = pd.read_sql(query, conn)
-        conn.close()
-        return file_names_df['file_name'].tolist()
-    except Exception as e:
-        st.error(f"Error fetching file names: {e}")
-        return []
-
-# Function to fetch questions based on the selected file name
-def get_questions_for_file(file_name):
-    """Fetch questions for the selected file from merged_pdf table."""
-    try:
-        conn = create_connection()
-        query = "SELECT Question FROM merged_pdf WHERE file_name = %s"
-        questions_df = pd.read_sql(query, conn, params=[file_name])
-        conn.close()
-        return questions_df['Question'].tolist()
-    except Exception as e:
-        st.error(f"Error fetching questions: {e}")
-        return []
-
-# Fetch all unique file names from the merged_pdf table
-file_names = get_file_names()
-
-# Display a dropdown menu for selecting a file name
-if file_names:
-    selected_file = st.selectbox("Select a PDF file:", file_names, help="Choose the PDF file you want to view questions for.")
-else:
-    st.warning("No files found in the merged_pdf table.")
+# Check if the user is logged in and JWT token is present
+if 'access_token' not in st.session_state:
+    st.warning("You need to login first. Please return to the main page and login.")
     st.stop()
 
-# Fetch questions for the selected file name
-questions_list = get_questions_for_file(selected_file)
+# Initialize session state variables only once to avoid re-initialization
+if 'selected_pdf' not in st.session_state:
+    st.session_state['selected_pdf'] = None
+if 'selected_extractor' not in st.session_state:
+    st.session_state['selected_extractor'] = None
+if 'pdf_files' not in st.session_state:
+    st.session_state['pdf_files'] = []
+    st.session_state['files_loaded'] = False  # Track if files are loaded
 
-# Display the questions in a dropdown menu if available
-if questions_list:
-    selected_question = st.selectbox("Select a Question:", questions_list, help="Choose a question to view.")
-else:
-    st.warning(f"No questions found for the selected file: {selected_file}")
+# Fetch PDF files only if they haven't been loaded already
+def get_pdf_list():
+    """Fetch the list of PDF files from the FastAPI endpoint."""
+    headers = {"Authorization": f"Bearer {st.session_state['access_token']}"}
+    try:
+        # Make the GET request with authentication headers
+        response = requests.get(FASTAPI_URL, headers=headers)
+        if response.status_code == 200:
+            # Extract and return the list of PDF files from the response
+            return response.json().get("pdf_files", [])
+        else:
+            st.error(f"Failed to fetch PDF list from FastAPI. Status code: {response.status_code}.")
+            return []
+    except requests.exceptions.RequestException as e:
+        st.error(f"Error connecting to FastAPI: {e}")
+        return []
+
+# Populate the PDF file list if not already loaded
+if not st.session_state['files_loaded']:
+    st.session_state['pdf_files'] = get_pdf_list()
+    st.session_state['files_loaded'] = True  # Mark as loaded to prevent re-fetching
+
+# Check if PDF files were successfully retrieved
+if not st.session_state['pdf_files']:
+    st.warning("No PDF files found in the specified S3 bucket folders.")
     st.stop()
 
-# Display the selected question
-st.subheader("Selected Question")
-st.write(selected_question)
+# Define callbacks to update session state
+def on_pdf_select():
+    st.session_state['selected_pdf'] = st.session_state['pdf_dropdown']
+
+def on_extractor_select():
+    st.session_state['selected_extractor'] = st.session_state['extractor_dropdown']
+
+# Dropdown for selecting a PDF file
+st.selectbox(
+    "Select a PDF file:", 
+    st.session_state['pdf_files'], 
+    help="Choose the PDF file you want to process.",
+    key="pdf_dropdown",  # Use the same key as session state to maintain consistency
+    index=0 if st.session_state['selected_pdf'] is None else st.session_state['pdf_files'].index(st.session_state['selected_pdf']),
+    on_change=on_pdf_select  # Call this function whenever the selection changes
+)
+
+# Dropdown for selecting an extractor method
+extractor_options = ["OpenAI", "PyPDF"]
+st.selectbox(
+    "Select an Extractor:", 
+    extractor_options, 
+    help="Choose the extraction method to use.",
+    key="extractor_dropdown",  # Use the same key as session state to maintain consistency
+    index=0 if st.session_state['selected_extractor'] is None else extractor_options.index(st.session_state['selected_extractor']),
+    on_change=on_extractor_select  # Call this function whenever the selection changes
+)
+
+# Display selected values for debugging
+st.write(f"You selected PDF: {st.session_state['selected_pdf']}")
+st.write(f"You selected Extractor: {st.session_state['selected_extractor']}")
+
+# Text area for inputting a question
+select_question = st.text_area("Enter your question here (Optional):")
+
+# Buttons to trigger actions
+summary_button = st.button("Generate Summary")
+generate_response = st.button("Generate Response")
+
+# Debugging output
+st.write("Page rendered successfully.")

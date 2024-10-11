@@ -1,5 +1,4 @@
 import boto3
-import os
 import pandas as pd
 import mysql.connector
 from io import StringIO
@@ -7,7 +6,7 @@ from io import StringIO
 # AWS S3 Configuration
 s3_bucket_name = "textextractionfrompdf"
 s3_folder = "GAIA-Dataset/"
-s3_csv_file = "gaia_test_dataset"
+s3_csv_file = "gaia_test_dataset.csv"
 s3_key = s3_folder + s3_csv_file
 
 # AWS Credentials

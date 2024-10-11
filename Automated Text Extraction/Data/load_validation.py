@@ -6,7 +6,7 @@ from io import StringIO
 # AWS S3 Configuration
 s3_bucket_name = "textextractionfrompdf"
 s3_folder = "GAIA-Dataset/"
-s3_csv_file = "gaia_validation_dataset"
+s3_csv_file = "gaia_validation_dataset.csv"
 s3_key = s3_folder + s3_csv_file
 
 # AWS Credentials
@@ -28,8 +28,13 @@ s3_client = boto3.client(
     region_name='us-east-2'
 )
 
-response = s3_client.get_object(Bucket=s3_bucket_name, Key=s3_key)
-csv_content = response['Body'].read().decode('utf-8')
+# Fetch the CSV file from the specified S3 location
+try:
+    response = s3_client.get_object(Bucket=s3_bucket_name, Key=s3_key)
+    csv_content = response['Body'].read().decode('utf-8')
+except Exception as e:
+    print(f"Error fetching CSV file from S3: {e}")
+    exit(1)
 
 # Step 2: Convert CSV content to DataFrame
 csv_data = pd.read_csv(StringIO(csv_content))
@@ -47,14 +52,19 @@ print(f"Number of rows after replacing NaN with None: {csv_data.shape[0]}")
 csv_data.columns = ['task_id', 'Question', 'Level', 'final_answer', 'file_name', 'file_path', 'annotator_metadata']
 
 # Step 5: Establish a connection to the RDS instance
-db_connection = mysql.connector.connect(
-    host=rds_endpoint,
-    user=db_user,
-    password=db_password,
-    database=db_name
-)
+try:
+    db_connection = mysql.connector.connect(
+        host=rds_endpoint,
+        user=db_user,
+        password=db_password,
+        database=db_name
+    )
+    print("Successfully connected to the database.")
+except mysql.connector.Error as err:
+    print(f"Failed to connect to the database: {err}")
+    exit(1)
 
-cursor = db_connection.cursor
+cursor = db_connection.cursor()
 
 # Step 6: Insert data into the MySQL table
 # Wrap each column name in backticks in case of special characters or reserved keywords

@@ -18,7 +18,7 @@ outputPrefix = 'openai_extracts/'  # Output folder for extracted files in S3
 s3Client = boto3.client('s3')
 
 # Set OpenAI API key (ensure the key is stored securely)
-openai.api_key = os.getenv("OPENAI_API_KEY")  # Or you can directly provide your API key here
+openai.api_key = os.getenv("OPENAI_API_KEY")
 
 # Default DAG arguments
 defaultArgs = {
@@ -60,68 +60,67 @@ def extract_data_with_pdfplumber(**kwargs):
         response = s3Client.get_object(Bucket=s3BucketName, Key=s3_file)
         pdf_content = response['Body'].read()
 
+        # To store cumulative text and table data
+        cumulative_text = ""
+        all_tables = []
+
         # Open the PDF with pdfplumber
         with pdfplumber.open(BytesIO(pdf_content)) as pdf:
             for page_num, page in enumerate(pdf.pages):
                 # Check if the page contains tables
                 tables = page.extract_tables()
                 if tables and len(tables) > 0:
-                    # Extract tables and save as CSV
-                    save_table_as_csv(tables, s3_file, page_num)
+                    for i, table in enumerate(tables):
+                        # Extract tables and append to the list
+                        df = pd.DataFrame(table[1:], columns=table[0])
+                        df['page_num'] = page_num  # Track the page number in the CSV
+                        all_tables.append(df)
                 else:
-                    # Extract text and send it to OpenAI for structured extraction
+                    # Extract text and accumulate for OpenAI structured extraction
                     text = page.extract_text()
                     if text:
-                        process_text_with_openai(text, s3_file, page_num)
+                        cumulative_text += f"\nPage {page_num}:\n{text}\n"
 
+        # After processing all pages, save cumulative data
+        if all_tables:
+            # Concatenate all tables into one DataFrame and save as a single CSV
+            save_combined_table_as_csv(all_tables, s3_file)
 
-# Task 3: Process Text Using OpenAI API
-def process_text_with_openai(text, s3_file, page_num):
-    """Use OpenAI API to extract structured information from the text."""
-    # Define a structured prompt for OpenAI API
-    prompt = f"""
-    You are a powerful document data extraction tool. Extract the relevant information from the following text:
+        if cumulative_text:
+            # Save accumulated text into a single TXT file
+            save_combined_text_as_txt(cumulative_text, s3_file)
+
+def save_combined_table_as_csv(df_list, s3_file):
+    """Save all extracted table data for the entire PDF as a single CSV file in S3."""
+    # Ensure that all dataframes have unique indices and non-conflicting columns before concatenation
+    cleaned_dfs = []
     
-    {text}
-    
-    Return the result as a structured JSON object, preserving the format and context of the original document.
-    """
+    for df in df_list:
+        # Reset index to ensure no duplicate index issues
+        df = df.reset_index(drop=True)
+        
+        # Rename columns to avoid potential duplicate names by adding a prefix with the dataframe index
+        df.columns = [f"{i}_{col}" if col in df.columns[df.columns.duplicated()] else col for i, col in enumerate(df.columns)]
+        
+        # Collect cleaned dataframe
+        cleaned_dfs.append(df)
 
-    # Call OpenAI API
-    try:
-        response = openai.Completion.create(
-            engine="text-davinci-003",  # Use your preferred OpenAI model
-            prompt=prompt,
-            max_tokens=500,
-            temperature=0.0,
-        )
-        structured_data = response.choices[0].text.strip()
+    # Concatenate the cleaned dataframes into a single DataFrame
+    full_table_df = pd.concat(cleaned_dfs, ignore_index=True)
 
-        # Save the structured data as JSON
-        save_text_as_json(structured_data, s3_file, page_num)
-
-    except Exception as e:
-        print(f"OpenAI API Error for file {s3_file}, page {page_num}: {e}")
+    # Save concatenated table data as a single CSV
+    csv_data = full_table_df.to_csv(index=False, header=True)
+    csvFileName = s3_file.split('/')[-1].replace('.pdf', '_tables_combined.csv')
+    s3Client.put_object(Bucket=s3BucketName, Key=f"{outputPrefix}{csvFileName}", Body=csv_data)
+    print(f"All tables for file {s3_file} saved as a single CSV.")
 
 
-# Function to save table data as a CSV in S3
-def save_table_as_csv(tables, s3_file, page_num):
-    """Save extracted table data as a CSV file in S3."""
-    for i, table in enumerate(tables):
-        df = pd.DataFrame(table[1:], columns=table[0])
-        csv_data = df.to_csv(index=False, header=True)
-        csvFileName = s3_file.split('/')[-1].replace('.pdf', f'_page{page_num}_table{i}.csv')
-        s3Client.put_object(Bucket=s3BucketName, Key=f"{outputPrefix}{csvFileName}", Body=csv_data)
-        print(f"Table {i} on Page {page_num} saved as CSV for file {s3_file}.")
-
-
-# Function to save extracted text as JSON in S3
-def save_text_as_json(text, s3_file, page_num):
-    """Store extracted text or structured OpenAI response in JSON format in S3."""
-    json_data = json.dumps({'page_num': page_num, 'content': text}, indent=4)
-    jsonFileName = s3_file.split('/')[-1].replace('.pdf', f'_page{page_num}.json')
-    s3Client.put_object(Bucket=s3BucketName, Key=f"{outputPrefix}{jsonFileName}", Body=json_data)
-    print(f"Text on Page {page_num} saved as JSON for file {s3_file}.")
+# Save entire PDF text as a single TXT file
+def save_combined_text_as_txt(text, s3_file):
+    """Save all extracted text for the entire PDF as a single TXT file in S3."""
+    txtFileName = s3_file.split('/')[-1].replace('.pdf', '_text_combined.txt')
+    s3Client.put_object(Bucket=s3BucketName, Key=f"{outputPrefix}{txtFileName}", Body=text.encode('utf-8'))
+    print(f"All text for file {s3_file} saved as a single TXT file.")
 
 
 # Define Airflow Tasks
