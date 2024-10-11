@@ -1,4 +1,10 @@
-Automated Text Extraction System - README
+#Automated Text Extraction System - README
+
+[Deployment link](https://18.188.86.27:8080)
+
+[Video link](https://drive.google.com/drive/folders/1VozeLR1GTBusVJXih_fo1F7lMnY-L-HG?usp=drive_link)
+
+[CodeLabs](https://codelabs-preview.appspot.com/?file_id=1-5QP7m-QK3vR2Jtv8-lNfvdp06IYvoHcKmNlVWzhRqU#0)
 
 Authors:
 
