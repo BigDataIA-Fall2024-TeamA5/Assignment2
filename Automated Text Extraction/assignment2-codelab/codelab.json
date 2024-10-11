@@ -1,0 +1,32 @@
+{
+  "environment": "web",
+  "format": "html",
+  "prefix": "https://storage.googleapis.com",
+  "mainga": "UA-49880327-14",
+  "updated": "2024-10-11T05:48:31-04:00",
+  "id": "assignment2-codelab",
+  "duration": 0,
+  "title": "Assignment 2 - Assignment Title",
+  "authors": "Shreya Bage, Aniket Patole, Saurabh Vyawahare",
+  "summary": "Learn how to automate text extraction from PDFs using cloud-native technologies like Airflow, FastAPI, Streamlit, and AWS S3.",
+  "source": "assignment2.md",
+  "theme": "",
+  "status": [
+    "published"
+  ],
+  "category": [
+    "cloud",
+    "dataprocessing"
+  ],
+  "tags": [
+    "airflow",
+    "aws-s3",
+    "docker",
+    "fastapi",
+    "jwt",
+    "pdf-extraction",
+    "streamlit"
+  ],
+  "feedback": "https://github.com/googlecodelabs/tools/issues",
+  "url": "assignment2-codelab"
+}

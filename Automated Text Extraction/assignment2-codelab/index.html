@@ -1,0 +1,584 @@
+
+<!doctype html>
+
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, minimum-scale=1.0, initial-scale=1.0, user-scalable=yes">
+  <meta name="theme-color" content="#4F7DC9">
+  <meta charset="UTF-8">
+  <title>Assignment 2 - Assignment Title</title>
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Source+Code+Pro:400|Roboto:400,300,400italic,500,700|Roboto+Mono">
+  <link rel="stylesheet" href="//fonts.googleapis.com/icon?family=Material+Icons">
+  <link rel="stylesheet" href="https://storage.googleapis.com/claat-public/codelab-elements.css">
+  <style>
+    .success {
+      color: #1e8e3e;
+    }
+    .error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+  <google-codelab-analytics gaid="UA-49880327-14" ga4id=""></google-codelab-analytics>
+  <google-codelab codelab-gaid=""
+                  codelab-ga4id=""
+                  id="assignment2-codelab"
+                  title="Assignment 2 - Assignment Title"
+                  environment="web"
+                  feedback-link="https://github.com/googlecodelabs/tools/issues">
+    
+      <google-codelab-step label="Introduction" duration="0">
+        <p>In this codelab, you will learn how to develop a cloud-native application that automates the process of text extraction from PDF documents and provides a client-facing interface for querying the extracted data. This project demonstrates the power of combining modern cloud technologies with user-friendly web interfaces to handle the processing and analysis of large volumes of document-based information. By leveraging workflow automation, secure APIs, and scalable storage solutions, this system is designed to simplify the challenges associated with extracting and working with text in PDF format.</p>
+<h2 is-upgraded>Technologies Involved:</h2>
+<ul>
+<li><strong>Airflow</strong>: As the orchestration tool, Airflow automates the text extraction process, ensuring that the workflow is efficient and reliable. Airflow manages each step of the pipeline, from PDF ingestion to data extraction and storage, allowing for flexible scheduling and task management.</li>
+<li><strong>FastAPI</strong>: FastAPI is used to build the backend of the application, managing user authentication, file uploads, and query handling. FastAPI provides a high-performance, easy-to-use framework that allows for quick deployment of REST APIs, ensuring that users can interact with the backend in real-time. The platform also secures sensitive operations with JWT authentication.</li>
+<li><strong>Streamlit</strong>: On the frontend, Streamlit offers an intuitive and interactive interface for users. It enables them to log in, upload PDFs, and query the extracted text without needing to write any code. The simplicity of the interface makes it accessible to non-technical users while still providing powerful functionality.</li>
+<li><strong>AWS S3 / SQL Database</strong>: For data storage, the project utilizes either Amazon S3 or a traditional SQL database, depending on the specific deployment needs. AWS S3 provides scalable cloud storage, while SQL databases offer structured storage for managing metadata, extracted text, and user credentials securely.</li>
+<li><strong>Docker</strong>: The entire application, including the backend, frontend, and text extraction pipeline, is containerized using Docker. This ensures that the application is portable, easy to deploy, and consistent across different environments, whether running locally or in the cloud.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Goal" duration="0">
+        <p>The primary goal of this project is to develop an end-to-end solution for automated PDF text extraction and querying. The system should be able to take in large quantities of PDF documents, extract their textual content, and store the data securely for future queries. Users will be able to interact with this data via a client-facing web interface that allows for file uploads and querying of the extracted information in a seamless and secure manner.</p>
+<p>The project demonstrates how cloud-native technologies can be combined to solve real-world document processing challenges. By integrating <strong>Airflow</strong> for automation, <strong>FastAPI</strong> for backend services, <strong>Streamlit</strong> for the frontend interface, and <strong>AWS S3/SQL</strong> for scalable storage, this solution aims to reduce manual work in text extraction, making it faster and more efficient for users to extract and analyze content from PDFs. Moreover, <strong>Docker</strong> ensures the application can be easily scaled and deployed across different environments, making it adaptable to both small-scale and enterprise-level needs.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Expanded Technologies Overview:" duration="0">
+        <ul>
+<li><strong>Airflow</strong> allows for the creation of flexible and scalable workflows. In this project, Airflow handles the scheduling and execution of tasks required to process PDFs. Whether processing documents one at a time or in bulk, Airflow ensures that the pipeline operates smoothly with minimal manual intervention. Its ability to track task success or failure ensures reliability in the data extraction process.</li>
+<li><strong>FastAPI</strong> ensures that the backend processes requests quickly and efficiently. User registration and authentication are handled through <strong>JWT tokens</strong>, ensuring that only authenticated users can upload or query documents. FastAPI also manages the communication between the frontend and the underlying services such as the text extraction pipeline and storage.</li>
+<li><strong>Streamlit</strong> makes it simple for users to interact with the system. With an easy-to-use interface, users can upload files, see the status of text extraction processes, and query the extracted data for insights. This UI is designed for non-technical users who need powerful text extraction and query capabilities without needing to learn complex tools or code.</li>
+<li><strong>AWS S3 / SQL Database</strong> provides a flexible and scalable solution for storing extracted text. <strong>AWS S3</strong> offers a cloud-based solution for larger datasets, ensuring that the system can handle scaling needs as more documents are processed. A <strong>SQL Database</strong> can also be used to store the extracted text and user metadata in a structured format, making it easier to retrieve and manage data efficiently.</li>
+<li><strong>Docker</strong> provides a containerized environment for all components of the application. This ensures that the deployment process is consistent across different environments (development, staging, production), reducing the potential for configuration issues. Docker also makes it easier to manage dependencies and scale the application as needed.</li>
+</ul>
+<p>This project will showcase the potential of cloud-native technologies to streamline complex data processing tasks, providing users with an easy-to-use interface and backend system capable of handling large-scale PDF document processing. Through the integration of these technologies, the project offers a solution that is scalable, secure, and efficient.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Problem Statement" duration="0">
+        <p>The manual extraction and querying of text from PDFs can be a labor-intensive and time-consuming task, particularly when handling large datasets. This project aims to automate the entire process and provide a user-friendly interface, allowing users to efficiently query the extracted data. By automating the extraction of text from PDFs, the project removes the need for manual intervention, making the process faster and more efficient.</p>
+<p>The expected outcome of the project includes the creation of an automated pipeline for extracting text from PDF files. This pipeline will streamline the processing of PDFs, allowing the extracted data to be accessed and queried through a simple, user-friendly interface. The system will also enable users to upload their PDFs, have the text extracted automatically, and ask questions about the contents of the documents using the provided interface.</p>
+<p>However, there are certain constraints and limitations associated with the project. The system requires Docker for containerization to ensure easy deployment and scalability. Additionally, AWS S3 integration is essential for cloud storage, enabling scalable and reliable storage for the extracted text. Without these components, the system may not function as intended, particularly in handling larger volumes of data.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Proof of Concept" duration="0">
+        <h2 is-upgraded>Technology Explanation:</h2>
+<h3 is-upgraded>Docker:</h3>
+<ul>
+<li><strong>Role</strong>: Docker ensures both the backend (FastAPI) and frontend (Streamlit) components are containerized, which simplifies deployment and makes the system platform-independent.</li>
+<li><strong>Benefit</strong>: By using containers, the entire application, including dependencies, libraries, and environment configurations, is packaged into a single image that can be deployed in any environment without issues.</li>
+<li><strong>How it Works</strong>: The Docker images for the backend and frontend are built separately. Docker Compose is used to define and manage multi-container applications, ensuring the FastAPI and Streamlit services run in isolated containers that can communicate with each other. This architecture ensures scalability, portability, and easy version control.</li>
+</ul>
+<h3 is-upgraded>Airflow:</h3>
+<ul>
+<li><strong>Role</strong>: Airflow is used to automate the orchestration of the PDF text extraction pipeline. It manages workflows through Directed Acyclic Graphs (DAGs) which represent the tasks involved in the extraction process.</li>
+<li><strong>Benefit</strong>: Airflow&#39;s pipeline automation makes the entire text extraction process scalable and maintainable. Tasks like scheduling PDF file extraction, managing data flow, and triggering processes are controlled through Airflow DAGs, ensuring reliable, sequential task execution.</li>
+<li><strong>How it Works</strong>: The pipeline reads the PDF files, extracts the text using PyPDF2, and stores the extracted data in a database or AWS S3. Airflow schedules tasks to extract text from multiple PDFs concurrently, and it also monitors and retries failed tasks automatically. This ensures seamless automation with efficient task management.</li>
+</ul>
+<h3 is-upgraded>FastAPI with JWT:</h3>
+<ul>
+<li><strong>Role</strong>: FastAPI provides the backend API services that handle user authentication, file uploads, text extraction, and querying. It uses JWT (JSON Web Token) for secure authentication, ensuring that users have proper access rights.</li>
+<li><strong>Benefit</strong>: JWT tokens enhance security by validating user credentials in each request. This approach ensures that only authenticated users can upload files, query the database, and access extracted data.</li>
+<li><strong>How it Works</strong>: FastAPI generates JWT tokens when a user logs in. These tokens are then passed along with each request to ensure the user is authorized to interact with the backend. JWT is verified on each request to check for token expiration and validity. FastAPI also exposes API endpoints for managing user login, registration, file uploads, and PDF queries.</li>
+</ul>
+<h3 is-upgraded>Streamlit:</h3>
+<ul>
+<li><strong>Role</strong>: Streamlit provides a user-friendly interface for interacting with the system. It allows users to register, log in, upload PDF files, and query the extracted text via an intuitive web interface.</li>
+<li><strong>Benefit</strong>: Streamlit&#39;s simplicity in building front-end web applications enables quick development of a clean, interactive user interface that is tightly integrated with FastAPI&#39;s backend services. Streamlit makes it easy for users to upload PDF files and view query results with minimal technical knowledge.</li>
+<li><strong>How it Works</strong>: The Streamlit frontend interacts with the FastAPI backend through API calls. When a user uploads a file, Streamlit sends it to FastAPI, which processes it using Airflow. Streamlit also retrieves query results from FastAPI, and the responses are displayed on the frontend, allowing users to interact with the processed data in real time.</li>
+</ul>
+<h3 is-upgraded>OpenAI:</h3>
+<ul>
+<li><strong>Role</strong>: OpenAI&#39;s API is integrated into the system to process user queries based on the extracted text. After the text is extracted from the PDF, users can ask questions, and OpenAI uses its language models to analyze the text and provide relevant answers.</li>
+<li><strong>Benefit</strong>: OpenAI&#39;s language models allow for natural language queries, enabling more dynamic interaction with the extracted text. Users can query specific information without needing to manually read the entire PDF content, saving time and improving efficiency.</li>
+<li><strong>How it Works</strong>: Once the PDF text is stored, the user submits a query via Streamlit. The FastAPI backend receives this query and forwards it to the OpenAI API, which analyzes the extracted text and generates a response. This response is sent back to the frontend, where it is displayed to the user.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Initial Setup:" duration="0">
+        <h2 is-upgraded>FastAPI Setup:</h2>
+<p>FastAPI is set up with endpoints for user registration, login, file uploads, and querying. The application initializes JWT-based authentication to ensure security, and a PostgreSQL database or AWS S3 is used for storing user credentials and extracted data. The system was configured to handle concurrent API requests to ensure performance and scalability.</p>
+<p>For each user request, the API checks the user&#39;s JWT token to validate access. Once authenticated, users can upload PDF files, which FastAPI sends to the Airflow pipeline for processing. FastAPI also handles querying the extracted text and interacting with the OpenAI API to return relevant answers.</p>
+<h2 is-upgraded>Airflow Pipeline Setup:</h2>
+<p>The pipeline is configured with DAGs to manage the extraction process. Airflow orchestrates the flow from reading PDFs to extracting text and saving it in the designated storage. DAGs are designed to trigger at scheduled intervals or based on external events such as a new PDF upload.</p>
+<p>The pipeline is resilient to failures, with built-in monitoring and error handling. If a task in the pipeline fails (e.g., file corruption or extraction issues), Airflow retries the task automatically or raises an alert for manual intervention.</p>
+<h2 is-upgraded>Docker and Containerization:</h2>
+<p>Docker images are built for both FastAPI and Streamlit. Docker Compose is used to ensure that both containers communicate and share resources without interference. This isolated container setup allows for consistent environments across development, testing, and production.</p>
+<p>Docker Compose simplifies the setup by providing a single command to start the entire application, ensuring all components (backend, frontend, and pipelines) work together seamlessly.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Challenges and Solutions:" duration="0">
+        <h2 is-upgraded>Setting up Docker for Multiple Containers:</h2>
+<ul>
+<li><strong>Challenge</strong>: Running multiple containers (e.g., FastAPI, Streamlit, and Airflow) in a synchronized environment while maintaining isolation between services.</li>
+<li><strong>Solution</strong>: Docker Compose was used to manage multi-container applications. Each service was containerized and isolated, allowing them to run independently but interact through defined network bridges. The setup was also scalable, allowing the services to scale independently based on load.</li>
+</ul>
+<h2 is-upgraded>Ensuring Secure Communication with JWT:</h2>
+<ul>
+<li><strong>Challenge</strong>: JWT-based authentication needed to be implemented to ensure that sensitive API endpoints were protected and only authorized users could access the backend.</li>
+<li><strong>Solution</strong>: FastAPI was configured with JWT to generate and verify tokens on each user request. This ensured that users must be authenticated to upload files or query the text extraction system. Tokens were verified for expiration and validity on each request.</li>
+</ul>
+<h2 is-upgraded>Enabling Seamless Interaction between FastAPI and Streamlit:</h2>
+<ul>
+<li><strong>Challenge</strong>: FastAPI and Streamlit needed to communicate seamlessly, especially for file uploads and query processing.</li>
+<li><strong>Solution</strong>: Streamlit was configured to send HTTP requests to FastAPI for all interactions. These requests included the JWT token for authentication. FastAPI handled the file uploads by sending the PDFs to the Airflow pipeline and responding to queries with OpenAI-generated answers.</li>
+</ul>
+<h2 is-upgraded>Handling Large PDF Files and Efficient Text Extraction:</h2>
+<ul>
+<li><strong>Challenge</strong>: Processing large PDF files efficiently without overloading the system, especially when dealing with many concurrent uploads.</li>
+<li><strong>Solution</strong>: Airflow&#39;s distributed nature allowed the system to handle multiple PDF files simultaneously. Each file was processed as a separate task in the DAG, and the system was designed to scale with increased load.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Architecture Diagram" duration="0">
+        <p class="image-container"><img alt="Architecture Diagram" src="img\\8909f91e0ed09e07.png"></p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Architecture Diagram Explanation" duration="0">
+        <h2 is-upgraded>1. <strong>User Registration and Login</strong></h2>
+<p>The application starts with users registering and logging in through the <strong>Streamlit</strong> frontend.</p>
+<ul>
+<li><strong>Registration</strong>: New users can register by providing their <strong>username</strong>, <strong>password</strong>, and <strong>email</strong>.</li>
+<li>The registration data is securely transmitted to the <strong>FastAPI</strong> backend.</li>
+<li>User data, including the hashed password (for secure storage), is stored in the <strong>PostgreSQL database</strong> (or <strong>AWS S3</strong>, depending on the system configuration).</li>
+<li><strong>Login</strong>: After successful registration, users can log in using their credentials. Upon a successful login, FastAPI generates a <strong>JWT token</strong> (JSON Web Token). This token is used to authenticate and authorize users for all subsequent interactions with the system, including uploading files and querying data.</li>
+</ul>
+<h2 is-upgraded>2. <strong>PDF Upload for Text Extraction</strong></h2>
+<p>Once logged in, users are redirected to the <strong>file upload page</strong> in the <strong>Streamlit interface</strong>.</p>
+<ul>
+<li><strong>File Upload</strong>: Users can upload <strong>PDF files</strong> that they want to extract text from.</li>
+<li>The uploaded PDF is securely sent to the <strong>FastAPI backend</strong>, which forwards the PDF to the <strong>Airflow pipeline</strong> for processing.</li>
+<li><strong>Text Extraction</strong>: The pipeline manages the entire text extraction process using libraries such as <strong>PyPDF2</strong> or other text extraction tools. <ul>
+<li>If the PDF contains complex formatting or images, advanced tools like <strong>AWS Textract</strong> may be used to extract the data.</li>
+</ul>
+</li>
+<li>After extraction, the resulting text is stored either in <strong>PostgreSQL</strong> (for local storage) or in <strong>AWS S3</strong> (for scalable cloud storage), based on the system&#39;s configuration.</li>
+<li>In case of extraction failures, Airflow will retry the task or log errors for later manual resolution.</li>
+</ul>
+<h2 is-upgraded>3. <strong>Querying the Extracted Text</strong></h2>
+<p>Once the text is extracted and stored, users can query the extracted content through the <strong>Streamlit interface</strong>.</p>
+<ul>
+<li><strong>Query Form</strong>: Users can type their questions related to the uploaded PDFs using a search bar or query form.</li>
+<li>The query is sent to the <strong>FastAPI backend</strong>, which forwards the request to the <strong>OpenAI API</strong>.</li>
+<li><strong>OpenAI Processing</strong>: The OpenAI API processes the query and analyzes it against the extracted text from the PDF.</li>
+<li>The <strong>response</strong> is then sent back from the <strong>FastAPI backend</strong> to the <strong>Streamlit frontend</strong>, where users can view the results based on the PDF contents.</li>
+</ul>
+<h2 is-upgraded>4. <strong>Viewing and Downloading Extracted Text</strong></h2>
+<p>In addition to querying, users have the option to <strong>view</strong> or <strong>download</strong> the extracted text.</p>
+<ul>
+<li><strong>Viewing</strong>: The extracted text is displayed in a readable format within the <strong>Streamlit interface</strong>, allowing users to browse the document directly.</li>
+<li><strong>Download Option</strong>: Users can also download the extracted text for offline use. <ul>
+<li>When a user requests a download, <strong>Streamlit</strong> sends the request to the <strong>FastAPI backend</strong>, which retrieves the extracted text from the storage system (either <strong>PostgreSQL</strong> or <strong>AWS S3</strong>).</li>
+<li>The text is then packaged into a downloadable file, which the user can save for future reference.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>5. <strong>Summary of the Process</strong></h2>
+<p>This step-by-step workflow demonstrates how users can easily:</p>
+<ul>
+<li>Upload PDFs,</li>
+<li>Automatically extract text,</li>
+<li>Ask questions about the extracted content, and</li>
+<li>Interact with the system via a user-friendly interface.</li>
+</ul>
+<p>By integrating <strong>Airflow</strong>, <strong>FastAPI</strong>, and <strong>OpenAI</strong>, the backend operations run smoothly, ensuring efficient data processing. The <strong>Streamlit</strong> frontend offers an intuitive interface that makes it easy for users to interact with the system, providing a seamless experience.</p>
+<h2 is-upgraded>1. <strong>User Interaction (Frontend - Streamlit)</strong></h2>
+<ul>
+<li><strong>User</strong>: The user interacts with the application via the Streamlit frontend. This frontend allows the user to perform the following tasks:<ul>
+<li>Register or log in to the system using JWT-based authentication.</li>
+<li>Upload PDF documents for text extraction.</li>
+<li>Query the extracted text using natural language questions.</li>
+</ul>
+</li>
+<li><strong>Streamlit (Frontend)</strong>:<ul>
+<li>Acts as the interface for the user.</li>
+<li>Streamlit interacts with the backend services via <strong>FastAPI</strong>, making API calls to authenticate users, upload files, and query data.</li>
+<li>Once the user uploads a PDF, it is sent to the backend through FastAPI for further processing.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>2. <strong>Backend (FastAPI)</strong></h2>
+<ul>
+<li><strong>FastAPI (Backend)</strong>:<ul>
+<li>The backend API service handles user authentication, PDF file uploads, and querying.</li>
+<li>It uses <strong>JWT (JSON Web Tokens)</strong> to manage secure user authentication, allowing only authorized users to interact with the backend.</li>
+<li>FastAPI exposes various API endpoints (e.g., user login, PDF upload, querying), which are consumed by the frontend (Streamlit).</li>
+</ul>
+</li>
+<li><strong>Swagger UI</strong>:<ul>
+<li>Swagger UI provides a web interface to explore and test the FastAPI endpoints, allowing developers to interact with the backend APIs in real time.</li>
+<li>It provides documentation for the APIs used in the backend.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>3. <strong>Data Pipeline (Airflow)</strong></h2>
+<ul>
+<li><strong>Airflow Pipeline</strong>:<ul>
+<li>Airflow orchestrates the entire workflow of processing the PDFs. Once a PDF is uploaded by the user via the frontend, Airflow automates the extraction process by running a series of tasks in a Directed Acyclic Graph (DAG).</li>
+<li>It triggers text extraction from the PDF using <strong>PyPDF</strong> and interacts with AWS S3 for storing extracted data.</li>
+</ul>
+</li>
+<li><strong>SQL Database</strong>:<ul>
+<li>FastAPI communicates with the SQL database to store structured data such as user credentials and metadata related to the PDFs.</li>
+<li>The SQL API Key is used to securely access the SQL database.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>4. <strong>PDF Extraction and Text Processing</strong></h2>
+<ul>
+<li><strong>PDF Extraction (PyPDF)</strong>:<ul>
+<li>PyPDF is used as the main tool for extracting textual data from the uploaded PDF documents.</li>
+<li>The extracted text is processed and stored for future queries.</li>
+</ul>
+</li>
+<li><strong>OpenAI API</strong>:<ul>
+<li>Once the text is extracted, the system allows the user to query the text using natural language.</li>
+<li>The <strong>OpenAI API</strong> is integrated to provide intelligent text analysis and answering capabilities. Users can ask questions about the contents of the PDF, and the OpenAI API generates answers based on the extracted text.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>5. <strong>Data Storage (AWS S3)</strong></h2>
+<ul>
+<li><strong>AWS S3</strong>: <ul>
+<li>AWS S3 is used as the scalable storage solution for storing the extracted text from PDFs. This ensures that the system can handle large volumes of data efficiently.</li>
+<li>The extracted data is securely stored in an S3 bucket, which can be accessed through an S3 API key.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>Data Flow and Interactions:</h2>
+<ol type="1">
+<li><strong>User Upload</strong>:<ul>
+<li>The user uploads a PDF file via the Streamlit frontend. The file is passed to the backend (FastAPI) for processing.</li>
+</ul>
+</li>
+<li><strong>JWT Authentication</strong>:<ul>
+<li>Before interacting with the backend, the user is authenticated using JWT. The token is generated and verified by FastAPI, ensuring secure communication between the user and backend.</li>
+</ul>
+</li>
+<li><strong>PDF Processing via Airflow</strong>:<ul>
+<li>The uploaded PDF is processed by Airflow, which triggers a series of tasks to extract text from the PDF using PyPDF. The extracted data is temporarily stored in a database.</li>
+</ul>
+</li>
+<li><strong>Text Storage in AWS S3</strong>:<ul>
+<li>The extracted text is stored in an AWS S3 bucket, where it is accessible via an S3 API key.</li>
+</ul>
+</li>
+<li><strong>Querying the Extracted Text</strong>:<ul>
+<li>The user can then query the extracted text using natural language via the Streamlit interface. FastAPI receives the query, sends it to the OpenAI API, and retrieves a response based on the extracted text.</li>
+</ul>
+</li>
+<li><strong>Response to User</strong>:<ul>
+<li>The response generated by the OpenAI API is passed back to the frontend (Streamlit), where it is displayed to the user.</li>
+</ul>
+</li>
+</ol>
+<h2 is-upgraded>Summary of Key Components:</h2>
+<ul>
+<li><strong>Frontend</strong>: Streamlit for user interaction.</li>
+<li><strong>Backend</strong>: FastAPI handles user authentication and PDF upload/querying.</li>
+<li><strong>Airflow</strong>: Manages the PDF processing workflow.</li>
+<li><strong>Text Extraction</strong>: PyPDF for extracting text from PDFs.</li>
+<li><strong>OpenAI</strong>: Processes user queries using extracted text.</li>
+<li><strong>Data Storage</strong>: AWS S3 for storing extracted data.</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Walkthrough of the Application" duration="0">
+        <p>This section provides a detailed explanation of the end-to-end workflow of the application, highlighting the interactions between the <strong>frontend (Streamlit)</strong>, <strong>backend (FastAPI)</strong>, and the <strong>data processing pipeline (Airflow)</strong>. It also covers how the extracted text is queried using the <strong>OpenAI API</strong>.</p>
+<h2 is-upgraded>1. <strong>User Registration and Login via Streamlit (Frontend)</strong></h2>
+<p>The application begins with user interaction through the <strong>Streamlit</strong> frontend. Users can easily register or log in using the simple interface provided by Streamlit.</p>
+<h3 is-upgraded>a. <strong>User Registration</strong></h3>
+<ul>
+<li><strong>New Users</strong>:<ul>
+<li>New users can register by providing their <strong>username</strong>, <strong>password</strong>, and <strong>email address</strong>.</li>
+<li>The registration data (including the password) is securely transmitted to the <strong>FastAPI backend</strong>.</li>
+</ul>
+</li>
+<li><strong>Secure Data Transmission</strong>:<ul>
+<li>The user&#39;s password is <strong>hashed</strong> before it is stored in the database to ensure secure storage. This prevents unauthorized access to sensitive information.</li>
+<li>User data (including hashed passwords) is stored in the <strong>PostgreSQL database</strong> or <strong>AWS S3</strong>, depending on the system configuration.</li>
+</ul>
+</li>
+</ul>
+<h3 is-upgraded>b. <strong>User Login and Authentication</strong></h3>
+<ul>
+<li><strong>Login</strong>:<ul>
+<li>Once users are registered, they can log in to the application using their credentials (username and password).</li>
+</ul>
+</li>
+<li><strong>JWT Token Generation</strong>:<ul>
+<li>After a successful login, the <strong>FastAPI backend</strong> generates a <strong>JWT (JSON Web Token)</strong>.</li>
+<li>This <strong>JWT token</strong> is critical for authenticating and authorizing users for all subsequent actions they take in the application. It helps securely manage user sessions.</li>
+</ul>
+</li>
+<li><strong>Token-Based Authorization</strong>:<ul>
+<li>The JWT token is used to authenticate users for performing secure tasks, such as uploading PDFs or querying extracted data. It ensures that only authorized users can interact with these features.</li>
+</ul>
+<strong>Once users are logged in and authenticated with JWT, they are directed to the PDF upload page.</strong></li>
+</ul>
+<h2 is-upgraded>2. <strong>PDF Upload via Streamlit (Frontend)</strong></h2>
+<p>Once users have successfully logged in, they are taken to the <strong>PDF upload page</strong> in the Streamlit frontend. Here, they can upload PDF files for text extraction.</p>
+<h3 is-upgraded>a. <strong>Uploading a PDF</strong></h3>
+<ul>
+<li><strong>User Uploads</strong>:<ul>
+<li>Users can upload a PDF file by selecting it from their local system through the <strong>Streamlit interface</strong>.</li>
+</ul>
+</li>
+<li><strong>Seamless Upload Process</strong>:<ul>
+<li>The user interface provided by Streamlit is simple and user-friendly, allowing users to easily navigate and upload files without needing technical expertise.</li>
+</ul>
+</li>
+</ul>
+<h3 is-upgraded>b. <strong>Backend Handling of File Uploads</strong></h3>
+<ul>
+<li><strong>File Handling</strong>:<ul>
+<li>Once a PDF is uploaded, it is sent to the <strong>FastAPI backend</strong> for further processing.</li>
+</ul>
+</li>
+<li><strong>Passing the PDF to the Airflow Pipeline</strong>:<ul>
+<li><strong>FastAPI</strong> forwards the uploaded PDF to the <strong>Airflow pipeline</strong>, which handles the extraction of textual content from the PDF.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>3. <strong>Automated Text Extraction via Airflow Pipeline</strong></h2>
+<p>The <strong>Airflow pipeline</strong> is responsible for managing the entire process of extracting text from the uploaded PDF files.</p>
+<h3 is-upgraded>a. <strong>Text Extraction Process</strong></h3>
+<ul>
+<li><strong>Pipeline Orchestration</strong>:<ul>
+<li><strong>Airflow</strong> automates the text extraction process by breaking down tasks into a series of steps, managed by Directed Acyclic Graphs (<strong>DAGs</strong>).</li>
+</ul>
+</li>
+<li><strong>PyPDF2 or AWS Textract</strong>:<ul>
+<li>For simple PDFs, <strong>PyPDF2</strong> is used as the text extraction tool to read and extract content from the uploaded documents.</li>
+<li>For more complex PDFs that contain images or sophisticated formatting, <strong>AWS Textract</strong> is employed to handle advanced extraction needs.</li>
+</ul>
+</li>
+<li><strong>Storing Extracted Text</strong>:<ul>
+<li>Once the text has been extracted from the PDF, it is stored securely in either the <strong>PostgreSQL database</strong> (for local storage) or <strong>AWS S3</strong> (for scalable cloud storage), depending on the system&#39;s configuration.</li>
+</ul>
+</li>
+</ul>
+<h3 is-upgraded>b. <strong>Error Handling</strong></h3>
+<ul>
+<li><strong>Automatic Task Retries</strong>:<ul>
+<li>In case any errors occur during the extraction process (e.g., file corruption or read issues), Airflow retries the task automatically.</li>
+</ul>
+</li>
+<li><strong>Logging Errors</strong>:<ul>
+<li>Any persistent issues are logged, and the system raises an alert for manual intervention.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>4. <strong>Querying the Extracted Text via Streamlit</strong></h2>
+<p>Once the text has been successfully extracted from the PDF, users can query the extracted content through the <strong>Streamlit</strong> interface.</p>
+<h3 is-upgraded>a. <strong>Submitting Queries</strong></h3>
+<ul>
+<li><strong>User Queries</strong>:<ul>
+<li>Users can submit natural language queries related to the content of the uploaded PDF. This is done through the query form or search bar provided in the Streamlit interface.</li>
+<li>For example, users may ask questions like &#34;What is the key takeaway from this document?&#34; to get specific insights from the extracted text.</li>
+</ul>
+</li>
+<li><strong>User-Friendly Interface</strong>:<ul>
+<li>The interface is designed to make it easy for users to interact with the system, even if they do not have technical expertise. Streamlit ensures that the user experience is intuitive and smooth.</li>
+</ul>
+</li>
+</ul>
+<h3 is-upgraded>b. <strong>FastAPI&#39;s Role in Query Processing</strong></h3>
+<ul>
+<li><strong>Forwarding Queries to OpenAI</strong>:<ul>
+<li>Once a query is submitted, it is sent to the <strong>FastAPI backend</strong>. FastAPI processes the request and forwards the query to the <strong>OpenAI API</strong> for further analysis.</li>
+</ul>
+</li>
+<li><strong>Query Processing by OpenAI</strong>:<ul>
+<li>The <strong>OpenAI API</strong> analyzes the query against the extracted text. Using its natural language processing capabilities, it generates a relevant response based on the content of the PDF.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>5. <strong>Viewing and Downloading Extracted Text via Streamlit</strong></h2>
+<h3 is-upgraded>a. <strong>Viewing the Extracted Text</strong></h3>
+<ul>
+<li><strong>Readable Format</strong>: <ul>
+<li>The extracted text is displayed in a readable format within the <strong>Streamlit</strong> interface, allowing users to browse through the content directly from the web application.</li>
+</ul>
+</li>
+</ul>
+<h3 is-upgraded>b. <strong>Downloading the Extracted Text</strong></h3>
+<ul>
+<li><strong>Download Option</strong>:<ul>
+<li>Users also have the option to download the extracted text for offline access.</li>
+</ul>
+</li>
+<li><strong>File Retrieval</strong>:<ul>
+<li>When a user requests to download the extracted content, <strong>Streamlit</strong> sends a request to the <strong>FastAPI backend</strong>, which retrieves the extracted text from the storage (either <strong>PostgreSQL</strong> or <strong>AWS S3</strong>, depending on the system configuration).</li>
+</ul>
+</li>
+<li><strong>Packaging the Text for Download</strong>:<ul>
+<li>FastAPI packages the text into a downloadable file (e.g., <code>.txt</code> or <code>.csv</code> format), and the user is prompted to download the file for future use.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>6. <strong>Summary of the Workflow</strong></h2>
+<p>This end-to-end process provides a seamless and user-friendly experience for users:</p>
+<ol type="1">
+<li><strong>Users register and log in</strong> using the <strong>Streamlit</strong> frontend.</li>
+<li><strong>FastAPI</strong> securely manages authentication and file uploads.</li>
+<li><strong>Airflow</strong> automates the process of extracting text from the uploaded PDF files.</li>
+<li><strong>Users can submit queries</strong> about the extracted text via <strong>Streamlit</strong>, and the <strong>OpenAI API</strong> processes and answers these queries.</li>
+<li><strong>Users can view or download</strong> the extracted content for future reference.</li>
+</ol>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Application Workflow (Data Engineering Work &#43; Code Explanation)" duration="0">
+        <p>This section explains the end-to-end workflow of the application, highlighting the interactions between the <strong>frontend (Streamlit)</strong>, <strong>backend (FastAPI)</strong>, and the <strong>data processing pipeline (Airflow)</strong>, along with how the extracted text is queried using the <strong>OpenAI API</strong>.</p>
+<h2 is-upgraded>1. <strong>User Interaction via Streamlit (Frontend)</strong></h2>
+<p>The user interface is built using <strong>Streamlit</strong>, which offers a simple and intuitive frontend that allows users to interact with the application without needing to write any code.</p>
+<ul>
+<li><strong>PDF Upload</strong>: When users want to upload a PDF for text extraction, they can do so through the <strong>Streamlit interface</strong>. The upload form is easy to navigate, and users simply select the PDF file from their local system for processing.</li>
+<li><strong>Query Submission</strong>: After uploading a PDF, users can also submit queries related to the content of the uploaded and processed PDFs. The interface provides a search bar or a form where users can enter natural language queries.</li>
+</ul>
+<p><strong>Streamlit</strong> acts as an intermediary between the user and the backend. It manages the flow of requests and handles all interactions with the user, including login, file uploads, and querying the extracted text. It provides a responsive, user-friendly interface that abstracts away the complexity of the backend services.</p>
+<h2 is-upgraded>2. <strong>Backend (Powered by FastAPI)</strong></h2>
+<p>The <strong>FastAPI</strong> backend plays a critical role in managing all user requests coming from the <strong>Streamlit</strong> frontend. Here&#39;s a breakdown of how the backend handles various operations:</p>
+<h3 is-upgraded>a. <strong>File Upload Management</strong></h3>
+<ul>
+<li><strong>Upload Handling</strong>: When a user uploads a PDF through the frontend, the request is passed to the <strong>FastAPI</strong> backend.</li>
+<li><strong>File Processing</strong>: FastAPI validates the uploaded file and manages the process of passing the file to the data pipeline (managed by Airflow) for text extraction.</li>
+</ul>
+<h3 is-upgraded>b. <strong>Authentication via JWT Tokens</strong></h3>
+<ul>
+<li><strong>JWT-Based Security</strong>: Before interacting with the system, users must be authenticated. <strong>JWT (JSON Web Token)</strong> is used for authentication to ensure that only authorized users can interact with the backend.</li>
+<li><strong>Token Generation</strong>: Upon successful login, <strong>FastAPI</strong> generates a JWT token that is passed back to the user. This token is used for all subsequent requests, such as file uploads and querying extracted text, ensuring secure communication.</li>
+<li><strong>Token Verification</strong>: Each time a request is made (e.g., uploading a PDF, querying the data), the JWT token is verified by FastAPI to ensure the user has the correct permissions.</li>
+</ul>
+<h3 is-upgraded>c. <strong>Request Routing and Handling</strong></h3>
+<p>FastAPI routes incoming requests to the appropriate service:</p>
+<ul>
+<li><strong>Login</strong>: Handles user authentication, and generates JWT tokens for secure sessions.</li>
+<li><strong>PDF Upload</strong>: Routes uploaded files to the processing pipeline (Airflow).</li>
+<li><strong>Query Submission</strong>: Forwards user queries about the extracted text to the OpenAI API for processing.</li>
+</ul>
+<h2 is-upgraded>3. <strong>Data Processing Pipeline (Orchestrated by Airflow)</strong></h2>
+<p>Once the FastAPI backend receives a PDF file, it triggers the <strong>Airflow</strong> pipeline to handle the text extraction. Airflow is responsible for automating the extraction process and managing the flow of tasks involved in transforming the PDF into a queryable format.</p>
+<h3 is-upgraded>a. <strong>PDF Text Extraction</strong></h3>
+<ul>
+<li><strong>Task Automation</strong>: Airflow orchestrates the entire text extraction process by breaking it into discrete tasks, managed by Directed Acyclic Graphs (<strong>DAGs</strong>). Each task corresponds to a specific step in the extraction process.</li>
+<li><strong>PyPDF2 or AWS Textract</strong>: <ul>
+<li>In simpler cases, open-source tools like <strong>PyPDF2</strong> are used to extract text from the uploaded PDFs.</li>
+<li>For more complex PDFs (e.g., those containing images or more sophisticated formatting), <strong>AWS Textract</strong> or similar tools are employed to accurately extract content.</li>
+</ul>
+</li>
+</ul>
+<h3 is-upgraded>b. <strong>Data Storage</strong></h3>
+<p>Once the text extraction is complete, the extracted text is stored for future querying:</p>
+<ul>
+<li><strong>PostgreSQL Database</strong>: For smaller-scale deployments or local setups, extracted data is stored in a <strong>PostgreSQL</strong> database.</li>
+<li><strong>AWS S3</strong>: For larger-scale setups or when scalability is needed, the extracted text is stored in <strong>AWS S3</strong>. The S3 bucket ensures scalability and reliability, handling large amounts of data efficiently.</li>
+</ul>
+<h3 is-upgraded>c. <strong>Error Handling and Task Monitoring</strong></h3>
+<p>Airflow includes built-in features to handle any issues during the extraction process:</p>
+<ul>
+<li><strong>Retry Mechanism</strong>: If any task fails during the extraction, Airflow retries the task automatically.</li>
+<li><strong>Error Logging</strong>: If persistent errors occur, they are logged for manual intervention and review.</li>
+</ul>
+<h2 is-upgraded>4. <strong>Querying the Extracted Text</strong></h2>
+<p>Once the text from the PDF has been extracted and stored, users can submit queries related to the content through the <strong>Streamlit</strong> interface.</p>
+<ul>
+<li><strong>Query Submission</strong>: Users type in their natural language questions into a search bar or form in Streamlit. For example, a user might ask, &#34;What is the key takeaway from this document?&#34;</li>
+<li><strong>Query Forwarding</strong>: The query is then sent to the <strong>FastAPI</strong> backend, where the request is processed.</li>
+<li><strong>OpenAI API Integration</strong>: <ul>
+<li>FastAPI forwards the user&#39;s query to the <strong>OpenAI API</strong>, which is integrated into the system to handle natural language processing.</li>
+<li>The OpenAI API uses the extracted text to generate a relevant response to the user&#39;s query. It applies its language model to analyze the query and extract meaningful information from the text.</li>
+</ul>
+</li>
+</ul>
+<h3 is-upgraded>5. <strong>Response Generation</strong></h3>
+<p>Once OpenAI generates a response:</p>
+<ul>
+<li><strong>Response Transmission</strong>: The response is sent back from OpenAI to the FastAPI backend, which then forwards it to the Streamlit frontend.</li>
+<li><strong>User Display</strong>: Streamlit displays the generated response, showing the user the result of their query based on the extracted content from the PDF.</li>
+</ul>
+<h2 is-upgraded>5. <strong>Viewing and Downloading Extracted Text</strong></h2>
+<p>In addition to querying the extracted content, users can <strong>view</strong> or <strong>download</strong> the extracted text for offline use.</p>
+<ul>
+<li><strong>View Extracted Text</strong>: The extracted text is presented in a readable format within the Streamlit interface. Users can browse through the text directly in their browser.</li>
+<li><strong>Download Text</strong>: <ul>
+<li>Users can also download the extracted text as a file for offline use.</li>
+<li>When a user requests to download the text, <strong>Streamlit</strong> sends the request to <strong>FastAPI</strong>, which retrieves the text from the data storage (either <strong>PostgreSQL</strong> or <strong>AWS S3</strong>, depending on the configuration).</li>
+<li>The text is then packaged into a downloadable file (e.g., a <code>.txt</code> or <code>.csv</code>), and the user is prompted to download it locally.</li>
+</ul>
+</li>
+</ul>
+<h2 is-upgraded>6. <strong>End-to-End Workflow Summary</strong></h2>
+<p>This application workflow provides a seamless and user-friendly experience for handling PDFs and querying extracted content:</p>
+<ol type="1">
+<li><strong>Users upload PDFs</strong> through the Streamlit frontend.</li>
+<li><strong>FastAPI</strong> securely manages authentication and handles file uploads.</li>
+<li>The <strong>Airflow</strong> pipeline processes the PDFs by extracting their textual content.</li>
+<li>The <strong>OpenAI API</strong> processes user queries and generates responses based on the extracted text.</li>
+<li>Users can view or download the extracted text for future reference.</li>
+</ol>
+<p>This entire process is automated, secure, and efficient, ensuring that users can easily interact with the system to extract, query, and retrieve data without needing in-depth technical knowledge.</p>
+<h2 is-upgraded>Key Technologies Used:</h2>
+<ul>
+<li><strong>Frontend</strong>: Streamlit</li>
+<li><strong>Backend</strong>: FastAPI (with JWT Authentication)</li>
+<li><strong>Data Pipeline</strong>: Airflow</li>
+<li><strong>Text Extraction</strong>: PyPDF2 or AWS Textract</li>
+<li><strong>Query Processing</strong>: OpenAI API</li>
+<li><strong>Data Storage</strong>: PostgreSQL or AWS S3</li>
+</ul>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="Conclusion" duration="0">
+        <p>In this codelab, you&#39;ve successfully built an automated system for PDF text extraction and querying using Airflow, FastAPI, and Streamlit. The project demonstrates how to leverage modern cloud tools and APIs, such as OpenAI, to tackle complex problems like text extraction and querying from PDFs.</p>
+<p>By integrating various components, including JWT authentication for secure access, cloud storage with AWS S3 for scalable data management, and containerization using Docker for flexible deployment, this project showcases how to create a scalable, secure, and efficient system. These technologies work together seamlessly to automate the extraction and querying process while ensuring a user-friendly experience.</p>
+
+
+      </google-codelab-step>
+    
+      <google-codelab-step label="References" duration="0">
+        <ul>
+<li>FastAPI Documentation: <a href="https://fastapi.tiangolo.com/" target="_blank">https://fastapi.tiangolo.com/</a></li>
+<li>Streamlit Documentation: <a href="https://docs.streamlit.io/" target="_blank">https://docs.streamlit.io/</a></li>
+<li>Airflow Documentation: <a href="https://airflow.apache.org/docs/" target="_blank">https://airflow.apache.org/docs/</a></li>
+<li>OpenAI API Documentation: <a href="https://beta.openai.com/docs/" target="_blank">https://beta.openai.com/docs/</a></li>
+<li>AWS S3 Documentation: <a href="https://docs.aws.amazon.com/s3/" target="_blank">https://docs.aws.amazon.com/s3/</a></li>
+<li>JWT Authentication Guide: <a href="https://jwt.io/introduction/" target="_blank">https://jwt.io/introduction/</a></li>
+</ul>
+
+
+      </google-codelab-step>
+    
+  </google-codelab>
+
+  <script src="https://storage.googleapis.com/claat-public/native-shim.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/custom-elements.min.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/prettify.js"></script>
+  <script src="https://storage.googleapis.com/claat-public/codelab-elements.js"></script>
+  <script src="//support.google.com/inapp/api.js"></script>
+
+</body>
+</html>
