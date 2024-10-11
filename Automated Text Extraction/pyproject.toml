@@ -6,9 +6,9 @@ authors = ["Saurabh, Shreya"]
 license = "MIT License"
 readme = "README.md"
 
+
 [tool.poetry.dependencies]
-python = ">=3.8,<=3.12.7"
-boto3 = "^1.35.30"
+python = ">=3.8,<3.9.7 || >3.9.7,<=3.12.7"
 datasets = "^3.0.1"
 
 docutils = "<0.21"
@@ -24,6 +24,8 @@ bcrypt = "^4.2.0"
 mysql-connector-python = "^9.0.0"
 python-multipart = "^0.0.12"
 python-dotenv = "^1.0.1"
+boto3 = "^1.35.38"
+streamlit = "^1.39.0"
 
 
 

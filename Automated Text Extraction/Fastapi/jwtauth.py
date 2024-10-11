@@ -1,4 +1,3 @@
-# fastapi_app.py
 from fastapi import FastAPI, HTTPException, status, Depends, APIRouter
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from datetime import datetime, timedelta, timezone
