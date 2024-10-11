@@ -52,15 +52,15 @@ x-airflow-common:
   image: custom-airflow:latest
   environment:
     _PIP_ADDITIONAL_REQUIREMENTS: "pandas streamlit numpy pypdf2 pdfplumber openai"
-    AIRFLOW__CORE__EXECUTOR: CeleryExecutor
-    AIRFLOW__DATABASE__SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
-    AIRFLOW__CELERY__RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
-    AIRFLOW__CELERY__BROKER_URL: redis://:@redis:6379/0
-    AIRFLOW__CORE__FERNET_KEY: XCs1iJScfrZ5MmXabV8_C89d1Xnj8HEGzVXPBZw_16M=
-    AIRFLOW__CORE__DAGS_ARE_PAUSED_AT_CREATION: 'true'
-    AIRFLOW__CORE__LOAD_EXAMPLES: 'false'
-    AIRFLOW__API__AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
-    TZ: "UTC"  # Set the timezone to UTC
+    AIRFLOW_CORE_EXECUTOR: CeleryExecutor
+    AIRFLOW_DATABASE_SQL_ALCHEMY_CONN: postgresql+psycopg2://airflow:airflow@postgres/airflow
+    AIRFLOW_CELERY_RESULT_BACKEND: db+postgresql://airflow:airflow@postgres/airflow
+    AIRFLOW_CELERY_BROKER_URL: redis://:@redis:6379/0
+    AIRFLOW_CORE_FERNET_KEY: XCs1iJScfrZ5MmXabV8_C89d1Xnj8HEGzVXPBZw_16M=
+    AIRFLOW_CORE_DAGS_ARE_PAUSED_AT_CREATION: 'true'
+    AIRFLOW_CORE_LOAD_EXAMPLES: 'false'
+    AIRFLOW_API_AUTH_BACKENDS: 'airflow.api.auth.backend.basic_auth,airflow.api.auth.backend.session'
+    TZ: "UTC"
   env_file: .env
 
 services:
@@ -70,7 +70,7 @@ services:
       POSTGRES_USER: airflow
       POSTGRES_PASSWORD: airflow
       POSTGRES_DB: airflow
-      TZ: "UTC"  # Ensure PostgreSQL uses UTC timezone
+      TZ: "UTC"
     volumes:
       - postgres-db-volume:/var/lib/postgresql/data
     healthcheck:
@@ -91,7 +91,7 @@ services:
       retries: 50
       start_period: 30s
     environment:
-      TZ: "UTC"  # Ensure Redis uses UTC timezone
+      TZ: "UTC"
     restart: always
 
   airflow-webserver:
@@ -100,10 +100,9 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./dags:/opt/airflow/dags
-      - ./logs:/opt/airflow/logs
-      - ./plugins:/opt/airflow/plugins
-      - /etc/localtime:/etc/localtime:ro
+      - ./Airflow/dags:/opt/airflow/dags
+      - ./Airflow/logs:/opt/airflow/logs
+      - ./Airflow/plugins:/opt/airflow/plugins
     depends_on:
       postgres:
         condition: service_healthy
@@ -115,10 +114,9 @@ services:
     <<: *airflow-common
     command: scheduler
     volumes:
-      - ./dags:/opt/airflow/dags
-      - ./logs:/opt/airflow/logs
-      - ./plugins:/opt/airflow/plugins
-      - /etc/localtime:/etc/localtime:ro
+      - ./Airflow/dags:/opt/airflow/dags
+      - ./Airflow/logs:/opt/airflow/logs
+      - ./Airflow/plugins:/opt/airflow/plugins
     depends_on:
       postgres:
         condition: service_healthy
@@ -130,10 +128,9 @@ services:
     <<: *airflow-common
     command: celery worker
     volumes:
-      - ./dags:/opt/airflow/dags
-      - ./logs:/opt/airflow/logs
-      - ./plugins:/opt/airflow/plugins
-      - /etc/localtime:/etc/localtime:ro
+      - ./Airflow/dags:/opt/airflow/dags
+      - ./Airflow/logs:/opt/airflow/logs
+      - ./Airflow/plugins:/opt/airflow/plugins
     depends_on:
       postgres:
         condition: service_healthy
@@ -145,10 +142,9 @@ services:
     <<: *airflow-common
     command: bash -c "airflow db init && airflow users create --username admin --password admin --firstname Admin --lastname User --role Admin --email admin@example.com"
     volumes:
-      - ./dags:/opt/airflow/dags
-      - ./logs:/opt/airflow/logs
-      - ./plugins:/opt/airflow/plugins
-      - /etc/localtime:/etc/localtime:ro
+      - ./Airflow/dags:/opt/airflow/dags
+      - ./Airflow/logs:/opt/airflow/logs
+      - ./Airflow/plugins:/opt/airflow/plugins
     depends_on:
       postgres:
         condition: service_healthy

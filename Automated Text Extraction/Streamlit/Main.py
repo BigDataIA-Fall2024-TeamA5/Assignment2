@@ -16,12 +16,12 @@ REGISTER_URL = f"{FASTAPI_URL}/auth/register"
 LOGIN_URL = f"{FASTAPI_URL}/auth/login"
 PDF_LIST_URL = f"{FASTAPI_URL}/files/list-pdfs"
 
-# RDS Database Configuration
+# RDS Database Configuration loaded from .env file
 DB_CONFIG = {
-    'host': 'database-1.cb4iuicksa3s.us-east-2.rds.amazonaws.com',
-    'user': 'admin',
-    'password': 'Group5assignment',
-    'database': 'textextraction'
+    'host': os.getenv('DB_HOST'),
+    'user': os.getenv('DB_USER'),
+    'password': os.getenv('DB_PASSWORD'),
+    'database': os.getenv('DB_NAME')
 }
 
 # Set up Streamlit page configuration

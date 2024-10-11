@@ -1,14 +1,13 @@
 # Use the official Apache Airflow image as the base image
 FROM apache/airflow:2.10.2
 
-# Install necessary system dependencies for Camelot and other libraries
+# Switch to root for installing system-level dependencies
 USER root
-RUN apt-get update \
-    && apt-get install -y \
-    ntpdate \
+
+# Install system dependencies needed for Airflow
+RUN apt-get update && apt-get install -y \
     build-essential \
     python3-dev \
-    python3-pip \
     libxml2-dev \
     libxslt-dev \
     libz-dev \
@@ -17,31 +16,33 @@ RUN apt-get update \
     poppler-utils \
     ghostscript \
     tesseract-ocr \
-    libgomp1 \
     && apt-get clean
-RUN pip install openai
-# Sync time to prevent AWS S3 time mismatch errors
-RUN ntpdate pool.ntp.org
 
-# Switch back to airflow user
+# Copy the requirements.txt file
+COPY requirements.txt .
+
+# Install Python dependencies as airflow user to avoid permission issues
+USER airflow
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Switch back to root for setting up entrypoint permissions
+USER root
+# Copy and set permissions for the custom entrypoint script
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+# Switch back to the airflow user for regular operations
 USER airflow
 
-# Set the correct environment variables to include user-installed packages
-ENV PATH="/home/airflow/.local/bin:${PATH}"
-
-# Install Python libraries using pip
-RUN pip install --user --no-cache-dir pandas streamlit numpy pypdf2 pdfplumber \
-    boto3 pdfminer.six camelot-py[cv] tiktoken chatgpt_operator
-
-# Expose the default Airflow port
-EXPOSE 8080
-
-# Copy over the DAGs and configuration (if needed)
+# Copy DAGs and plugins into Airflow's directories
 COPY ./dags /opt/airflow/dags
 COPY ./plugins /opt/airflow/plugins
 
-# Set the entrypoint for Airflow
-ENTRYPOINT ["entrypoint.sh"]
+# Expose the default Airflow webserver port
+EXPOSE 8080
 
-# Run the Airflow webserver as the default service
-CMD ["webserver"]
+# Use the custom entrypoint script
+ENTRYPOINT ["/entrypoint.sh"]
+
+# Define the default command to run Airflow's webserver
+CMD ["airflow", "webserver"]
