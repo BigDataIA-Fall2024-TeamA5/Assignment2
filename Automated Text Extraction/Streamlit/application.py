@@ -11,14 +11,15 @@ st.set_page_config(page_title="PDF Text Extraction Application", layout="centere
 st.title("PDF Text Extraction Application")
 
 # Correct FastAPI URL for the PDF list endpoint
-FASTAPI_URL = os.getenv("FASTAPI_URL", "http://127.0.0.1:8000/files/list-pdfs")
+FASTAPI_URL = os.getenv("FASTAPI_URL", "http://127.0.0.1:8000")  # Ensure only the base URL is set
+PDF_LIST_ENDPOINT = f"{FASTAPI_URL}/files/list-pdfs"
 
 # Check if the user is logged in and JWT token is present
-if 'access_token' not in st.session_state:
+if 'access_token' not in st.session_state or not st.session_state['access_token']:
     st.warning("You need to login first. Please return to the main page and login.")
     st.stop()
 
-# Initialize session state variables only once to avoid re-initialization
+# Initialize session state variables to keep track of dropdown values and files
 if 'selected_pdf' not in st.session_state:
     st.session_state['selected_pdf'] = None
 if 'selected_extractor' not in st.session_state:
@@ -33,10 +34,11 @@ def get_pdf_list():
     headers = {"Authorization": f"Bearer {st.session_state['access_token']}"}
     try:
         # Make the GET request with authentication headers
-        response = requests.get(FASTAPI_URL, headers=headers)
+        response = requests.get(PDF_LIST_ENDPOINT, headers=headers)
         if response.status_code == 200:
             # Extract and return the list of PDF files from the response
-            return response.json().get("pdf_files", [])
+            pdf_files = response.json().get("pdf_files", [])
+            return pdf_files
         else:
             st.error(f"Failed to fetch PDF list from FastAPI. Status code: {response.status_code}.")
             return []
@@ -54,11 +56,13 @@ if not st.session_state['pdf_files']:
     st.warning("No PDF files found in the specified S3 bucket folders.")
     st.stop()
 
-# Define callbacks to update session state
+# Define callbacks to update session state based on dropdown selections
 def on_pdf_select():
+    """Callback function to update selected PDF file in session state."""
     st.session_state['selected_pdf'] = st.session_state['pdf_dropdown']
 
 def on_extractor_select():
+    """Callback function to update selected extractor method in session state."""
     st.session_state['selected_extractor'] = st.session_state['extractor_dropdown']
 
 # Dropdown for selecting a PDF file
@@ -92,6 +96,22 @@ select_question = st.text_area("Enter your question here (Optional):")
 # Buttons to trigger actions
 summary_button = st.button("Generate Summary")
 generate_response = st.button("Generate Response")
+
+# Logic for Generate Summary Button
+if summary_button:
+    if st.session_state['selected_pdf'] and st.session_state['selected_extractor']:
+        st.success(f"Generating summary for {st.session_state['selected_pdf']} using {st.session_state['selected_extractor']}...")
+        # Placeholder for API call to generate summary
+    else:
+        st.warning("Please select both a PDF file and an extractor method before generating a summary.")
+
+# Logic for Generate Response Button
+if generate_response:
+    if st.session_state['selected_pdf'] and st.session_state['selected_extractor'] and select_question:
+        st.success(f"Generating response for the question: '{select_question}' using {st.session_state['selected_extractor']}...")
+        # Placeholder for API call to generate response
+    else:
+        st.warning("Please select a PDF file, an extractor method, and enter a question before generating a response.")
 
 # Debugging output
 st.write("Page rendered successfully.")
