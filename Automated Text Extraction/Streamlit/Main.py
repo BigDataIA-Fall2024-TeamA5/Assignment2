@@ -4,7 +4,8 @@ from dotenv import load_dotenv
 import os
 import mysql.connector
 from mysql.connector import Error
-from generate_summary import generate_summary  # Import the generate_summary function
+from generate_summary import generate_summary  # Updated import for the renamed `generate_summary` file
+from generate_response import ask_chatgpt  # Import the ask_chatgpt function
 
 # Load environment variables
 load_dotenv()
@@ -44,6 +45,8 @@ if 'pdf_question' not in st.session_state:
     st.session_state['pdf_question'] = None
 if 'summary_result' not in st.session_state:
     st.session_state['summary_result'] = None
+if 'response_result' not in st.session_state:
+    st.session_state['response_result'] = None
 
 # Function to connect to the RDS MySQL database
 def create_db_connection():
@@ -188,10 +191,12 @@ if st.session_state['logged_in']:
     generate_response = st.button("Generate Response")
 
     if generate_response:
-        if st.session_state['selected_pdf'] and st.session_state['selected_extractor'] and select_question:
-            st.success(f"Generating response for the question: '{select_question}' using {st.session_state['selected_extractor']}...")
+        if st.session_state['summary_result'] and select_question:
+            st.session_state['response_result'] = ask_chatgpt(st.session_state['summary_result'], select_question)
+            st.write("**ChatGPT's Answer:**")
+            st.write(st.session_state['response_result'])
         else:
-            st.warning("Please select a PDF file, an extractor method, and enter a question before generating a response.")
+            st.warning("Please generate a summary and enter a question before generating a response.")
 
 else:
     option = st.selectbox("Select Login or Signup", ("Login", "Signup"))

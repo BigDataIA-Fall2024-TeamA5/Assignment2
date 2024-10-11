@@ -25,6 +25,8 @@ mysql-connector-python = "^9.0.0"
 python-multipart = "^0.0.12"
 python-dotenv = "^1.0.1"
 boto3 = "^1.35.38"
+openai = "0.28.0"
+streamlit = "^1.39.0"
 
 
 

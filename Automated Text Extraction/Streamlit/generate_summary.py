@@ -24,22 +24,31 @@ def generate_summary(pdf_name, extractor):
     # Define the folder prefixes based on the extractor type
     if extractor == "OpenAI":
         folder_prefix = "openai_extracts/"
+        # For OpenAI, file names have specific suffixes
+        s3_keys = [
+            f"{folder_prefix}{pdf_name.replace('.pdf', '_tables_combined.csv')}",
+            f"{folder_prefix}{pdf_name.replace('.pdf', '_text_combined.txt')}"
+        ]
     elif extractor == "PyPDF":
         folder_prefix = "pypdf2_folder/"
+        # Standard file extensions for PyPDF extracted files
+        s3_keys = [
+            f"{folder_prefix}{pdf_name.replace('.pdf', '.json')}",
+            f"{folder_prefix}{pdf_name.replace('.pdf', '.csv')}"
+        ]
     else:
         return "Unknown extractor method."
-
-    # Construct the S3 key based on the PDF name and extractor
-    file_types = ['.json', '.csv', '.txt']
-    s3_keys = [f"{folder_prefix}{pdf_name.replace('.pdf', file_ext)}" for file_ext in file_types]
 
     # Attempt to fetch the summary from one of the file types
     for s3_key in s3_keys:
         try:
             response = s3_client.get_object(Bucket=S3_BUCKET, Key=s3_key)
             file_content = response['Body'].read().decode('utf-8')
-            return file_content
+            return f"Summary found in: {s3_key}\n\n{file_content}"
         except s3_client.exceptions.NoSuchKey:
             continue  # If key not found, try the next file type
 
-    return "Summary not found for the selected PDF."
+    return "Summary not found for the selected PDF."
+
+# Example usage (replace with actual values during testing)
+# print(generate_summary("example_pdf_file.pdf", "OpenAI"))
