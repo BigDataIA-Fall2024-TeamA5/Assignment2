@@ -33,7 +33,7 @@ SECRET_KEY = "abc"
 DB_CONFIG = {
     'host': 'database-1.cb4iuicksa3s.us-east-2.rds.amazonaws.com',
     'user': 'admin',
-    'password': 'damg7245bigdata',
+    'password': 'Group5assignment',
     'database': 'textextraction'
 }
 
