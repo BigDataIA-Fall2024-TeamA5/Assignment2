@@ -1,4 +1,4 @@
-#Automated Text Extraction System - README
+# Automated Text Extraction System - README
 
 [Deployment link](https://18.188.86.27:8080)
 
