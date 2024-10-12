@@ -7,6 +7,11 @@ from pydantic import BaseModel
 import mysql.connector
 from mysql.connector import Error
 from fastapi.middleware.cors import CORSMiddleware
+from dotenv import load_dotenv
+import os
+
+# Load environment variables
+load_dotenv()
 
 # Create FastAPI app
 app = FastAPI()
@@ -26,14 +31,14 @@ app.add_middleware(
 )
 
 # Secret key for JWT encoding
-SECRET_KEY = "abc"
+SECRET_KEY = os.getenv("SECRET_KEY")
 
 # Database Configuration
 DB_CONFIG = {
-    'host': 'database-1.cb4iuicksa3s.us-east-2.rds.amazonaws.com',
-    'user': 'admin',
-    'password': 'Group5assignment',
-    'database': 'textextraction'
+    'host': os.getenv("DB_HOST"),
+    'user': os.getenv("DB_USER"),
+    'password': os.getenv("DB_PASSWORD"),
+    'database': os.getenv("DB_NAME")
 }
 
 # Initialize HTTPBearer for secured routes
